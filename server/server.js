@@ -1,7 +1,9 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
 const connectDb = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 // load environment variables
 dotenv.config();
@@ -19,7 +21,8 @@ app.use(express.json());
 connectDb();
 
 // Routes for user and task
-
+app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // port
 const PORT = process.env.PORT || 5000;
