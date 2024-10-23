@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+  background-color: #17a2b8;
+}
+
+.imageContainer {
+  position: relative;
+  text-align: center;
+  color: #FFFFFF;
+
+}
+
+.backImage {
+  position: absolute;
+  top: -3rem;
+  left: 2.6rem;
+  width: 250px;
+  z-index: 1;
+}
+
+.groupImage {
+  position: relative;
+  width: 200px;
+  z-index: 2;
+}
