@@ -1,4 +1,6 @@
 import s from "./Board.module.css";
+import plus from "../../assets/plusIcon.svg";
+import collapse from "../../assets/collapse.svg";
 
 const Board = () => {
   const name = localStorage.getItem("name") || "User";
@@ -38,7 +40,35 @@ const Board = () => {
         <h2>Welcome! {name}</h2>
         <p>{todayDate}</p>
       </header>
-      <div></div>
+      <h2>Board</h2>
+      <div className={s.boxContainer}>
+        <div className={s.statusContainer}>
+          <p>
+            <strong>Backlog</strong>
+          </p>
+        </div>
+        <div className={s.statusContainer}>
+          <div className={s.todoBox}>
+            <p>
+              <strong>To do</strong>
+            </p>
+            <div>
+              <img src={plus} alt="add" />
+              <img src={collapse} alt="collapse" />
+            </div>
+          </div>
+        </div>
+        <div className={s.statusContainer}>
+          <p>
+            <strong>In progress</strong>
+          </p>
+        </div>
+        <div className={s.statusContainer}>
+          <p>
+            <strong>Done</strong>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

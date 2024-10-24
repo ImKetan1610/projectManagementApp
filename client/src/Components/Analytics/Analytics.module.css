@@ -1,0 +1,33 @@
+.main {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  /* border: 1px solid; */
+  display: flex;
+}
+
+.taskBox {
+  width: 35%;
+  margin-right: 1%;
+  padding: 10px;
+  background: #f9fcff;
+  border-radius: 5px;
+  padding: 2rem;
+}
+
+.taskNameDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskNameDiv div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskNameDiv div img {
+  margin-right: 10px;
+}

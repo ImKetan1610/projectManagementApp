@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+}
+
+.form {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formSection {
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  padding-left: 2rem;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid lightgrey;
+}
+
+.userIcon {
+  background: url("../../assets/usericon.svg") no-repeat left;
+  background-size: 25px;
+  background-position: 5px;
+}
+
+.emailIcon {
+  background: url("../../assets/emailIcon.svg") no-repeat left;
+  background-size: 25px;
+  background-position: 5px;
+}
+
+.password {
+  background: url("../../assets/lock.svg") no-repeat left;
+  background-size: 25px;
+  background-position: 5px;
+}
+
+.updateBtn {
+  cursor: pointer;
+  width: 110%;
+  background: #17a2b8;
+  color: white;
+  border-radius: 20px;
+}
