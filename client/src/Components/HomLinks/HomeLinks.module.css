@@ -1,0 +1,62 @@
+.container {
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 100vh;
+  border-right: 1px solid lightgrey;
+  width: 10rem;
+}
+
+.linkGroup {
+  display: flex;
+  flex-flow: column;
+  gap: 2rem 0;
+}
+
+.linkGroup h2 {
+  margin-right: 1rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.active {
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.12);
+  background: #4391ED1A;
+  border-top: 1px solid #4391ED1A;
+  border-bottom: 1px solid #4391ED1A;
+}
+
+.link img {
+    margin-right: 1rem;
+}
+
+.logout {
+  padding: 0.5rem 0rem 0rem 0rem;
+  cursor: pointer;
+  color: #CF3636;
+}
+
+.logout img{
+    margin-right: 1rem;
+}
+
+@media only screen and (max-width: 750px) {
+  .container {
+    flex-direction: row;
+    height: 6rem;
+    width: 100vw;
+  }
+  .linkGroup {
+    flex-direction: row;
+  }
+}

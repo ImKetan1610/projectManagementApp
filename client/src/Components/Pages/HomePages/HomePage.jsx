@@ -1,9 +1,12 @@
-import React from 'react'
+import HomeLinks from "../../HomLinks/HomeLinks"
+import s from "./HomePage.module.css"
+import {Outlet} from "react-router-dom"
 
 const HomePage = () => {
   return (
-    <div>
-      
+    <div className={s.container}>
+      <HomeLinks />
+      <Outlet />
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import SideAuth from "../SideAuth/SideAuth";
 import s from "./Login.module.css"
 
@@ -14,7 +13,7 @@ const Login = () => {
         <form className={s.form} onSubmit={handleSubmit}>
           <div className={s.formSection}>
             <input
-              type="text"
+              type="email"
               className={s.emailIcon}
               placeholder="Email"
               required
@@ -23,7 +22,7 @@ const Login = () => {
 
           <div className={s.formSection}>
             <input
-              type="text"
+              type="password"
               className={s.password}
               placeholder="Password"
               required

@@ -1,0 +1,15 @@
+.container{
+    width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header p {
+    color: #707070;
+    font-family: 'Poppins', sans-serif;
+}

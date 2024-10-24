@@ -22,7 +22,7 @@ const Register = () => {
 
           <div className={s.formSection}>
             <input
-              type="text"
+              type="email"
               className={s.emailIcon}
               placeholder="Email"
               required
@@ -31,7 +31,7 @@ const Register = () => {
 
           <div className={s.formSection}>
             <input
-              type="text"
+              type="password"
               className={s.password}
               placeholder="Password"
               required
@@ -39,7 +39,7 @@ const Register = () => {
           </div>
           <div className={s.formSection}>
             <input
-              type="text"
+              type="password"
               className={s.password}
               placeholder="Confirm Password"
               required
