@@ -1,0 +1,172 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+}
+.modalContent>div {
+    margin-top: 1.5rem;
+}
+
+.titleInput {
+  width: 90%;
+}
+
+.prioritySection {
+  display: flex;
+  align-items: center;
+}
+
+.priorityButton {
+  font-size: 0.75em;
+  margin: 5px;
+  padding: 5px;
+  background-color: transparent;
+  border: 0.5px solid lightgrey;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.active {
+  background-color: #eeecec;
+}
+
+.assignSection {
+  display: flex;
+  align-items: center;
+}
+.assignSection label {
+  margin-right: 5px;
+}
+
+.assignSection input {
+  padding-left: 1rem;
+  width: 78%;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  border: 0.5px solid lightgray;
+  border-radius: 8px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.checklistItemsDiv {
+    max-height: 200px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin; 
+    scrollbar-color: grey transparent; 
+}
+
+.checklistItemsDiv::-webkit-scrollbar {
+    width: 5px;
+}
+
+.checklistItemsDiv::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.checklistItemsDiv::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 1rem;
+}
+
+
+.checklistItemsDiv:hover::-webkit-scrollbar-thumb {
+    background: #888; /* Color when hovered */
+}
+
+/* Optional: make scrollbar disappear when not needed */
+.checklistItemsDiv::-webkit-scrollbar {
+    display: none; /* Hide scrollbar when not hovered */
+}
+
+.checklistItemsDiv:hover::-webkit-scrollbar {
+    display: block; /* Show scrollbar when hovered */
+}
+
+.checklistItem div {
+  display: flex;
+}
+
+.checklistItem div input:first-child {
+  width: 10%;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.checklistItem div input {
+  margin-right: 5px;
+}
+
+.checklistItem div input:last-child {
+  padding-left: 5%;
+  border: 0;
+}
+
+.checklistItem button {
+  border: 0;
+  background-color: transparent;
+}
+
+.addButton {
+  font-family: "Poppins", "Sans serif";
+  border: 0;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  color: grey;
+}
+
+.addButton:hover {
+  background-color: whitesmoke;
+  border-radius: 8px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.cancel {
+  padding: 0.5rem 2rem !important;
+  border: 1px solid red !important;
+  border-radius: 8px;
+  color: red;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.save {
+  background-color: #17a2b8;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+}
+
+sup {
+  color: red;
+}
