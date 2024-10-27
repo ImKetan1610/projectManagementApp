@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import s from "./HomeLinks.module.css";
 import board from "../../assets/board.svg";
@@ -5,40 +6,24 @@ import ana from "../../assets/analytics.svg";
 import set from "../../assets/settings.svg";
 import icon from "../../assets/icon.svg";
 import logoutIcon from "../../assets/LogoutIcon.svg";
-// import { useContext, useEffect } from "react";
-// import { context } from "../Context/UserContext";
 
 function HomeLinks() {
   let navigate = useNavigate();
-  //   const { user, setUser } = useContext(context);
+  const [showModal, setShowModal] = useState(false);
 
   function handleLogOut() {
-    // setUser((prev) => {
-    //   return {
-    //     ...prev,
-    //     isAuthorize: false,
-    //     email: "",
-    //     username: "",
-    //   };
-    // });
     localStorage.removeItem("proManage");
     localStorage.removeItem("proManage:username");
     navigate("/auth/login");
   }
 
-  //   useEffect(() => {
-  //     if (user && user.isAuthorize === false) {
-  //       navigate("/auth/login");
-  //     }
-  //   }, [user?.isAuthorize, navigate]);
-
   return (
     <div className={s.container}>
       <div className={s.linkGroup}>
-      <h2>
-        <img src={icon} alt="" />
-        Pro Manage
-      </h2>
+        <h2>
+          <img src={icon} alt="" />
+          Pro Manage
+        </h2>
         <NavLink
           className={({ isActive }) =>
             isActive ? `${s.link} ${s.active}` : s.link
@@ -71,11 +56,31 @@ function HomeLinks() {
         </NavLink>
       </div>
       <div>
-        <h2 onClick={handleLogOut} className={s.logout}>
+        <h2 onClick={() => setShowModal(true)} className={s.logout}>
           <img src={logoutIcon} alt="logout" />
           Log out
         </h2>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showModal && (
+        <div className={s.modalOverlay}>
+          <div className={s.modalContent}>
+            <p>Are you sure you want to Logout?</p>
+            <div className={s.modalActions}>
+              <button onClick={handleLogOut} className={s.confirmButton}>
+                Yes, Logout
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className={s.cancelButton}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
