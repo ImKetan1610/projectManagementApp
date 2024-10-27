@@ -71,3 +71,9 @@ input:focus {
   color: #17a2b8;
   background: transparent;
 }
+
+.errorText {
+  color: red;
+  font-size: xx-small;
+  margin-left: 1rem;
+}

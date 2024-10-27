@@ -21,8 +21,8 @@ function HomeLinks() {
     //     username: "",
     //   };
     // });
-    localStorage.removeItem("pro-manage");
-    localStorage.removeItem("name");
+    localStorage.removeItem("proManage");
+    localStorage.removeItem("proManage:username");
     navigate("/auth/login");
   }
 
