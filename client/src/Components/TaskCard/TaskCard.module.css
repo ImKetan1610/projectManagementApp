@@ -1,0 +1,145 @@
+/* Task Card Container */
+.taskCard {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+/* Header */
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.priority {
+  font-size: 0.9em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.high {
+  background-color: #ff6961;
+}
+
+.medium {
+  background-color: #f7b267;
+}
+
+.low {
+  background-color: #77dd77;
+}
+
+.options {
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+/* Title */
+.taskTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Checklist Header */
+.checklistHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+/* Checklist */
+.checklist {
+  max-height: 100px;
+  overflow-y: auto;
+  margin: 8px 0;
+  /* border: 1px solid #ccc; */
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  padding: 0.5rem 0;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.checklistItem:last-child {
+  margin-bottom: 0;
+}
+
+.checkbox {
+  width: 10%;
+  margin-right: 8px;
+}
+
+/* Due Date */
+.dueDate {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Status Buttons */
+.statusButtons {
+  font-size: 8px;
+  font-family: "Poppins", serif;
+  margin-top: 10px;
+}
+
+.statusButton:first-child{
+    margin-right: 10px;
+}
+.statusButton {
+  /* padding: 6px 12px; */
+  margin-right: 4px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  font-family: "Poppins", serif;
+}
+
+.statusButton.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.statusButton:hover {
+  background-color: #e0e0e0;
+}
+
+/* Scrollbar Styling */
+.checklist::-webkit-scrollbar {
+  width: 8px;
+}
+
+.checklist::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+.checklist::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}

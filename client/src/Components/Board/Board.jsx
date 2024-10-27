@@ -3,6 +3,7 @@ import s from "./Board.module.css";
 import plus from "../../assets/plusIcon.svg";
 import collapse from "../../assets/collapse.svg";
 import TaskModal from "../TaskModal/TaskModal";
+import TaskCard from "../TaskCard/Taskcard";
 
 const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,6 +60,18 @@ const Board = () => {
               <img src={collapse} alt="collapse" />
             </div>
           </div>
+          <TaskCard
+            task={{
+              title: "Sample Task",
+              priority: "High",
+              dueDate: "2024-11-01",
+              checklist: [
+                { label: "Task item 1", checked: false },
+                { label: "Task item 2", checked: true },
+                { label: "Task item 3", checked: false },
+              ],
+            }}
+          />
         </div>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
