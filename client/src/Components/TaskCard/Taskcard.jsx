@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import s from "./TaskCard.module.css";
 import up from "../../assets/ArrowUp.svg";
 import down from "../../assets/ArrowDown.svg";
@@ -7,6 +7,7 @@ const TaskCard = ({ task }) => {
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
   const [status, setStatus] = useState("Not Started");
+  const [showOptions, setShowOptions] = useState(false);
 
   const handleToggleChecklist = () => setShowChecklist(!showChecklist);
 
@@ -18,6 +19,25 @@ const TaskCard = ({ task }) => {
 
   const completedCount = checklist.filter((item) => item.checked).length;
 
+  const formatDueDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    const day = date.getDate();
+
+    // Add the ordinal suffix (st, nd, rd, th)
+    const ordinalSuffix =
+      day % 10 === 1 && day !== 11
+        ? "st"
+        : day % 10 === 2 && day !== 12
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+        ? "rd"
+        : "th";
+
+    return `${formattedDate}${ordinalSuffix}`;
+  };
+
   return (
     <div className={s.taskCard}>
       {/* Header with Priority and Options */}
@@ -25,7 +45,22 @@ const TaskCard = ({ task }) => {
         <span className={`${s.priority} ${s[task.priority.toLowerCase()]}`}>
           {task.priority}
         </span>
-        <span className={s.options}>...</span>
+
+        <span
+          className={s.options}
+          onClick={() => setShowOptions(!showOptions)}
+        >
+          ...
+        </span>
+
+        {/* Dropdown Menu */}
+        {showOptions && (
+          <div className={s.dropdown}>
+            <div className={s.dropdownOption}>Edit</div>
+            <div className={s.dropdownOption}>Share</div>
+            <div className={`${s.dropdownOption} ${s.delete}`}>Delete</div>
+          </div>
+        )}
       </div>
 
       {/* Title */}
@@ -66,12 +101,9 @@ const TaskCard = ({ task }) => {
         </ul>
       )}
 
-      {/* Due Date */}
-      {/* <div className={s.dueDate}>Due Date: {task.dueDate}</div> */}
-
-      {/* Status Buttons */}
+      {/* Status and Due Date */}
       <div className={s.statusButtons}>
-        <button className={s.statusButton}>{task.dueDate}</button>
+        <button className={s.statusButton}>{formatDueDate(task.dueDate)}</button>
         {["To-Do", "In Progress", "Done"].map((stat) => (
           <button
             key={stat}
