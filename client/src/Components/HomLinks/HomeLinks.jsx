@@ -14,6 +14,7 @@ function HomeLinks() {
   function handleLogOut() {
     localStorage.removeItem("proManage");
     localStorage.removeItem("proManage:username");
+    localStorage.removeItem("proManage:userId");
     navigate("/auth/login");
   }
 

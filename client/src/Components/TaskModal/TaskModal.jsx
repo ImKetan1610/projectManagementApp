@@ -4,8 +4,12 @@ import hp from "../../assets/HighPriorityIcon.svg";
 import mp from "../../assets/ModeratePriorityIcon.svg";
 import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
+import customHooks from "../CustomHooks/CustomHooks"; // Import custom hook
 
 const TaskModal = ({ isOpen, onClose, onSave }) => {
+  const { createTask } = customHooks(); // Use custom hook to access createTask function
+
+  const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [checklist, setChecklist] = useState([
@@ -13,9 +17,9 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
   ]);
   const [dueDate, setDueDate] = useState("");
 
-  const handlePriorityChange = (level) => {
-    setPriority(level);
-  };
+  const userId = localStorage.getItem("proManage:userId");
+
+  const handlePriorityChange = (level) => setPriority(level);
 
   const handleAddChecklistItem = () => {
     setChecklist([
@@ -42,9 +46,30 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
     setChecklist(checklist.filter((item) => item.id !== id));
   };
 
-  const handleSave = () => {
-    onSave({ priority, assignedTo, checklist, dueDate });
-    onClose();
+  const handleSave = async () => {
+    const taskData = {
+      title,
+      priority,
+      dueDate,
+      assignedTo,
+      user: userId,
+      checklist: checklist.map((item) => ({
+        text: item.text,
+        completed: item.completed,
+      })),
+    };
+
+    try {
+      const response = await createTask(taskData);
+      if (response) {
+        onSave(); // Optional: pass data to parent component if needed
+        onClose();
+      } else {
+        console.error("Failed to create task.");
+      }
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
   const completedCount = checklist.filter((item) => item.completed).length;
@@ -59,7 +84,13 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
             Title<sup>*</sup>
           </strong>
         </p>
-        <input className={s.titleInput} type="text" />
+        <input
+          className={s.titleInput}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter task title"
+        />
 
         <div className={s.prioritySection}>
           <p>

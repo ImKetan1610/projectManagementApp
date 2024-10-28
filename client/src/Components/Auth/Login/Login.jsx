@@ -61,6 +61,7 @@ const Login = () => {
           });
           localStorage.setItem("proManage", token);
           localStorage.setItem("proManage:username", res.data.name);
+          localStorage.setItem("proManage:userId", res.data.id);
           navigate("/board");
         }
       } catch (error) {

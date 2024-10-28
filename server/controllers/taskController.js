@@ -1,7 +1,7 @@
 const Task = require("../models/taskModel");
 
 const createTask = async (req, res) => {
-  const { title, priority, dueDate, category, sharedWith } = req.body;
+  const { title, priority, dueDate, category, sharedWith, user } = req.body;
 
   try {
     const newTask = await Task.create({
@@ -10,6 +10,7 @@ const createTask = async (req, res) => {
       dueDate,
       category,
       sharedWith,
+      user
     });
 
     if (!newTask) {

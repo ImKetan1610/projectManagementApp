@@ -33,7 +33,24 @@ function customHooks() {
     }
   }
 
-  return { updateProfile };
+  async function createTask(taskData) {
+    try {
+      const res = await apiClient.post(`/api/tasks`, taskData);
+      if (res.status === 201) {
+        return res.data;
+      } else {
+        throw new Error("Failed to create task.");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return error.response.data.message;
+      } else {
+        return error.message;
+      }
+    }
+  }
+
+  return { updateProfile, createTask };
 }
 
 export default customHooks;
