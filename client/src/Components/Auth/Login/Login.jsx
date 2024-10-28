@@ -53,7 +53,6 @@ const Login = () => {
       try {
         let res = await axios.post(BACKEND_URL + "/api/users/login", formData);
         if (res.status === 200) {
-          console.log("56", res);
           let token = res.data.token;
           setUser({
             email: formData.email,

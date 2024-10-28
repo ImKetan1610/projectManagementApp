@@ -8,7 +8,7 @@ import TaskCard from "../TaskCard/Taskcard";
 const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const name = localStorage.getItem("name") || "User";
+  const name = localStorage.getItem("proManage:username") || "User";
 
   const todayDate = getTodaysDate();
   function getTodaysDate() {
