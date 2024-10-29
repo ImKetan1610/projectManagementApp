@@ -104,4 +104,15 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { registerNewUser, login, updateProfile };
+const getAllUsers = async (req, res) => {
+  try {
+    // Find all users
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { registerNewUser, login, updateProfile, getAllUsers };

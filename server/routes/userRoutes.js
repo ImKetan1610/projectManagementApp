@@ -10,6 +10,7 @@ const {
   registerNewUser,
   login,
   updateProfile,
+  getAllUsers,
 } = require("../controllers/userController");
 
 // register route
@@ -20,5 +21,8 @@ router.post("/login", loginValidation, validate, login);
 
 // update the password route
 router.put("/update-profile", protect, updateProfile);
+
+// get all the users
+router.get("/", getAllUsers);
 
 module.exports = router;
