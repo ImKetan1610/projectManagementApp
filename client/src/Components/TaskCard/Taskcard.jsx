@@ -4,6 +4,7 @@ import up from "../../assets/ArrowUp.svg";
 import down from "../../assets/ArrowDown.svg";
 
 const TaskCard = ({ task }) => {
+  console.log("taskPriority", task.priority);
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
   const [status, setStatus] = useState("Not Started");
@@ -20,6 +21,7 @@ const TaskCard = ({ task }) => {
   const completedCount = checklist.filter((item) => item.checked).length;
 
   const formatDueDate = (dateString) => {
+    if (!dateString) return "";
     const date = new Date(dateString);
     const options = { month: "short", day: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", options);
@@ -42,8 +44,12 @@ const TaskCard = ({ task }) => {
     <div className={s.taskCard}>
       {/* Header with Priority and Options */}
       <div className={s.taskHeader}>
-        <span className={`${s.priority} ${s[task.priority.toLowerCase()]}`}>
-          {task.priority}
+        <span
+          className={`${s.priority} ${
+            s[task.priority.toLowerCase().split(" ")[0]]
+          }`}
+        >
+          {task.priority.toUpperCase()}
         </span>
 
         <span
@@ -103,7 +109,11 @@ const TaskCard = ({ task }) => {
 
       {/* Status and Due Date */}
       <div className={s.statusButtons}>
-        <button className={s.statusButton}>{formatDueDate(task.dueDate)}</button>
+        <button
+          className={`${s.statusButton} ${task.dueDate == null ? s.nullButton : ""}`}
+        >
+          {formatDueDate(task.dueDate)}
+        </button>
         {["To-Do", "In Progress", "Done"].map((stat) => (
           <button
             key={stat}

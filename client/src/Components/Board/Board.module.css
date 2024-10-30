@@ -25,6 +25,9 @@
   background: #eef2f5;
   border-radius: 10px;
   height: 575px;
+  overflow-y: auto; /* Vertical scrollbar only when necessary */
+  overflow-x: hidden; /* Hide horizontal overflow */
+  scroll-behavior: smooth;
 }
 
 .todoBox {

@@ -43,6 +43,31 @@ const Board = () => {
     console.log("Saved Task:", taskData);
   };
 
+  const taskList = [
+    {
+      title: "Sample Task",
+      priority: "High Priority",
+      dueDate: "2024-11-01",
+      checklist: [
+        { label: "Task item 1", checked: false },
+        { label: "Task item 2", checked: true },
+        { label: "Task item 3", checked: false },
+      ],
+    },
+    {
+      title: "qwe",
+      priority: "Moderate Priority",
+      dueDate: null,
+      status: "backlog",
+      sharedWith: [],
+      checklist: [
+        { label: "Task item 1", checked: false },
+        { label: "Task item 2", checked: true },
+        { label: "Task item 3", checked: false },
+      ],
+    },
+  ];
+
   return (
     <div className={s.container}>
       <header className={s.header}>
@@ -60,18 +85,9 @@ const Board = () => {
               <img src={collapse} alt="collapse" />
             </div>
           </div>
-          <TaskCard
-            task={{
-              title: "Sample Task",
-              priority: "High",
-              dueDate: "2024-11-01",
-              checklist: [
-                { label: "Task item 1", checked: false },
-                { label: "Task item 2", checked: true },
-                { label: "Task item 3", checked: false },
-              ],
-            }}
-          />
+          {taskList.map((task) => (
+            <TaskCard key={task._id} task={task} />
+          ))}
         </div>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>

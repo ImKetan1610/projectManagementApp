@@ -3,7 +3,7 @@
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 8px;
-  width: 300px;
+  width: 88%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
   background-color: white;
@@ -28,7 +28,7 @@
   background-color: #ff6961;
 }
 
-.medium {
+.moderate {
   background-color: #f7b267;
 }
 
