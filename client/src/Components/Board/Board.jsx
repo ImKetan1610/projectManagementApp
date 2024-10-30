@@ -47,7 +47,7 @@ const Board = () => {
     {
       title: "Sample Task",
       priority: "High Priority",
-      dueDate: "2024-11-01",
+      dueDate: "2024-10-01",
       checklist: [
         { label: "Task item 1", checked: false },
         { label: "Task item 2", checked: true },
@@ -57,7 +57,7 @@ const Board = () => {
     {
       title: "qwe",
       priority: "Moderate Priority",
-      dueDate: null,
+      dueDate: "null",
       status: "backlog",
       sharedWith: [],
       checklist: [

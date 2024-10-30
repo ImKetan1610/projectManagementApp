@@ -4,7 +4,7 @@ import up from "../../assets/ArrowUp.svg";
 import down from "../../assets/ArrowDown.svg";
 
 const TaskCard = ({ task }) => {
-  console.log("taskPriority", task.priority);
+  console.log("task due date", task.dueDate);
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
   const [status, setStatus] = useState("Not Started");
@@ -21,7 +21,7 @@ const TaskCard = ({ task }) => {
   const completedCount = checklist.filter((item) => item.checked).length;
 
   const formatDueDate = (dateString) => {
-    if (!dateString) return "";
+    if (dateString == "null") return "";
     const date = new Date(dateString);
     const options = { month: "short", day: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", options);
@@ -110,7 +110,9 @@ const TaskCard = ({ task }) => {
       {/* Status and Due Date */}
       <div className={s.statusButtons}>
         <button
-          className={`${s.statusButton} ${task.dueDate == null ? s.nullButton : ""}`}
+          className={`${s.statusButton} ${
+            task.dueDate == "null" ? s.nullButton : ""
+          }`}
         >
           {formatDueDate(task.dueDate)}
         </button>
