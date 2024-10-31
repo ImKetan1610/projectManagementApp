@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const checklistSchema = mongoose.Schema({
-  description: { type: String, required: true },
-  completed: { type: Boolean, default: false },
+  label: { type: String, required: true },
+  checked: { type: Boolean, default: false },
 });
 
 const taskSchema = mongoose.Schema(

@@ -40,3 +40,15 @@
   margin-right: 10px;
   cursor: pointer;
 }
+
+.boardTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boardTitle>div:first-child{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

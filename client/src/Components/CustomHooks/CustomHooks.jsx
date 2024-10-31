@@ -28,8 +28,8 @@ function customHooks() {
         throw new Error("Server error while updating the profile.");
       }
     } catch (error) {
-      if (error instanceof Error) return error.response.data.message
-      else return error
+      if (error instanceof Error) return error.response.data.message;
+      else return error;
     }
   }
 
@@ -50,7 +50,25 @@ function customHooks() {
     }
   }
 
-  return { updateProfile, createTask };
+  /***** Task *****/
+  async function getUsersTasks(req, res) {
+    try {
+      const res = await apiClient.get(`/api/tasks`);
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        throw new Error("Failed to retrieve tasks.");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return error.response.data.message;
+      } else {
+        return error.message;
+      }
+    }
+  }
+
+  return { updateProfile, createTask, getUsersTasks };
 }
 
 export default customHooks;

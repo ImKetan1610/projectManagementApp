@@ -54,8 +54,8 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
       assignedTo,
       user: userId,
       checklist: checklist.map((item) => ({
-        text: item.text,
-        completed: item.completed,
+        label: item.text,
+        checked: item.completed,
       })),
     };
 

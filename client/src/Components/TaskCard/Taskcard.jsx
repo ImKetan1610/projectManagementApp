@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import s from "./TaskCard.module.css";
 import up from "../../assets/ArrowUp.svg";
 import down from "../../assets/ArrowDown.svg";
 
 const TaskCard = ({ task }) => {
-  console.log("task due date", task.dueDate);
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
   const [status, setStatus] = useState("Not Started");
@@ -21,7 +20,7 @@ const TaskCard = ({ task }) => {
   const completedCount = checklist.filter((item) => item.checked).length;
 
   const formatDueDate = (dateString) => {
-    if (dateString == "null") return "";
+    if (dateString == null || dateString == "null") return "";
     const date = new Date(dateString);
     const options = { month: "short", day: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", options);
@@ -44,13 +43,12 @@ const TaskCard = ({ task }) => {
     <div className={s.taskCard}>
       {/* Header with Priority and Options */}
       <div className={s.taskHeader}>
-        <span
-          className={`${s.priority} ${
-            s[task.priority.toLowerCase().split(" ")[0]]
-          }`}
-        >
-          {task.priority.toUpperCase()}
-        </span>
+        <div>
+          <div className={`${s[task.priority.toLowerCase().split(" ")[0]]}`}>
+            &nbsp;
+          </div>
+          <span className={`${s.priority}`}>{task.priority.toUpperCase()}</span>
+        </div>
 
         <span
           className={s.options}
@@ -111,7 +109,7 @@ const TaskCard = ({ task }) => {
       <div className={s.statusButtons}>
         <button
           className={`${s.statusButton} ${
-            task.dueDate == "null" ? s.nullButton : ""
+            (task.dueDate == "null" || task.dueDate == null) ? s.nullButton : ""
           }`}
         >
           {formatDueDate(task.dueDate)}

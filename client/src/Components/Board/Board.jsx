@@ -1,12 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import s from "./Board.module.css";
 import plus from "../../assets/plusIcon.svg";
 import collapse from "../../assets/collapse.svg";
 import TaskModal from "../TaskModal/TaskModal";
 import TaskCard from "../TaskCard/Taskcard";
+import customHooks from "../CustomHooks/CustomHooks";
+import people from "../../assets/peopleIcon.svg";
 
 const Board = () => {
+  const { getUsersTasks } = customHooks();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskList, setTaskList] = useState([
+    {
+      title: "Sample Task",
+      priority: "High Priority",
+      dueDate: "2024-10-01",
+      checklist: [
+        { label: "Task item 1", checked: false },
+        { label: "Task item 2", checked: true },
+        { label: "Task item 3", checked: false },
+      ],
+    },
+    {
+      title: "qwe",
+      priority: "Moderate Priority",
+      dueDate: "null",
+      status: "backlog",
+      sharedWith: [],
+      checklist: [
+        { label: "Task item 1", checked: false },
+        { label: "Task item 2", checked: true },
+        { label: "Task item 3", checked: false },
+      ],
+    },
+  ]);
 
   const name = localStorage.getItem("proManage:username") || "User";
 
@@ -43,30 +70,22 @@ const Board = () => {
     console.log("Saved Task:", taskData);
   };
 
-  const taskList = [
-    {
-      title: "Sample Task",
-      priority: "High Priority",
-      dueDate: "2024-10-01",
-      checklist: [
-        { label: "Task item 1", checked: false },
-        { label: "Task item 2", checked: true },
-        { label: "Task item 3", checked: false },
-      ],
-    },
-    {
-      title: "qwe",
-      priority: "Moderate Priority",
-      dueDate: "null",
-      status: "backlog",
-      sharedWith: [],
-      checklist: [
-        { label: "Task item 1", checked: false },
-        { label: "Task item 2", checked: true },
-        { label: "Task item 3", checked: false },
-      ],
-    },
-  ];
+  const [selectedFilter, setSelectedFilter] = useState("thisWeek");
+
+  const handleFilterChange = (event) => {
+    const filterValue = event.target.value;
+    setSelectedFilter(filterValue);
+    // onFilterChange(filterValue);
+  };
+
+  useEffect(async () => {
+    const list = await getUsersTasks();
+    setTaskList(list);
+  }, []);
+
+
+
+  console.log("qwerty", taskList);
 
   return (
     <div className={s.container}>
@@ -74,7 +93,35 @@ const Board = () => {
         <h2>Welcome! {name}</h2>
         <p>{todayDate}</p>
       </header>
-      <h2>Board</h2>
+      <div className={s.boardTitle}>
+        <div>
+          <h2>Board</h2>
+          <span>
+            {" "}
+            <img src={people} alt="People" />
+            &nbsp;Add People
+          </span>
+        </div>
+        <div>
+          <select
+            id="taskFilter"
+            value={selectedFilter}
+            onChange={handleFilterChange}
+            style={{
+              border: 0,
+              backgroundColor: "transparent",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              cursor: "pointer",
+              outline: "none",
+            }}
+          >
+            <option value="today">Today</option>
+            <option value="thisWeek">This Week</option>
+            <option value="thisMonth">This Month</option>
+          </select>
+        </div>
+      </div>
       <div className={s.boxContainer}>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
@@ -85,7 +132,7 @@ const Board = () => {
               <img src={collapse} alt="collapse" />
             </div>
           </div>
-          {taskList.map((task) => (
+          {taskList?.map((task) => (
             <TaskCard key={task._id} task={task} />
           ))}
         </div>

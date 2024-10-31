@@ -7,6 +7,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
   background-color: white;
+  margin-bottom: 1rem;
 }
 
 /* Header */
@@ -17,23 +18,40 @@
   margin-bottom: 10px;
 }
 
+.taskHeader > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .priority {
-  font-size: 0.9em;
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: #fff;
+  font-size: 0.5em;
+  margin-left: 5px;
+  /* padding: 4px 8px; */
+  /* border-radius: 4px; */
+  /* color: #fff; */
+  /* border: 1px solid red !important; */
 }
 
 .high {
-  background-color: #ff6961;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #ff2473;
 }
 
 .moderate {
-  background-color: #f7b267;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #18b0ff;
 }
 
 .low {
-  background-color: #77dd77;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #63c05b;
 }
 
 .options {
@@ -101,9 +119,9 @@
 
 /* Status Buttons */
 .statusButtons {
-  font-size: 8px;
+  font-size: 7px;
   font-family: "Poppins", serif;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .statusButton:first-child {
@@ -112,8 +130,9 @@
 
 .statusButton {
   /* padding: 6px 12px; */
-  margin-right: 4px;
-  margin-top: 4px;
+  margin-right: 2px;
+  font-size:9px;
+  margin-top: 2px;
   border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
@@ -185,7 +204,7 @@
 }
 
 .nullButton {
-  background-color: transparent !important;  
+  background-color: transparent !important;
   border: 0;
   width: 100%;
 }
