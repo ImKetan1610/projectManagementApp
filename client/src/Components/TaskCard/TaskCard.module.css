@@ -131,7 +131,7 @@
 .statusButton {
   /* padding: 6px 12px; */
   margin-right: 2px;
-  font-size:9px;
+  font-size: 9px;
   margin-top: 2px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -207,4 +207,58 @@
   background-color: transparent !important;
   border: 0;
   width: 100%;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it appears above other elements */
+  transition: opacity 0.3s ease;
+}
+
+/* Add these styles to TaskCard.module.css */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.confirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirmButton {
+  background-color: red;
+  color: white;
+}
+
+.cancelButton {
+  background-color: grey;
+  color: white;
 }

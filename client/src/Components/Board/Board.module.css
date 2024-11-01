@@ -30,6 +30,20 @@
   scroll-behavior: smooth;
 }
 
+/* Scrollbar Styling */
+.statusContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.statusContainer::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+.statusContainer::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
 .todoBox {
   display: flex;
   align-items: center;

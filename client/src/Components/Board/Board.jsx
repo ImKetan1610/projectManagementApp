@@ -8,32 +8,14 @@ import customHooks from "../CustomHooks/CustomHooks";
 import people from "../../assets/peopleIcon.svg";
 
 const Board = () => {
-  const { getUsersTasks } = customHooks();
+  const { getUsersTasks, filterTaskByStatus } = customHooks();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [taskList, setTaskList] = useState([
-    {
-      title: "Sample Task",
-      priority: "High Priority",
-      dueDate: "2024-10-01",
-      checklist: [
-        { label: "Task item 1", checked: false },
-        { label: "Task item 2", checked: true },
-        { label: "Task item 3", checked: false },
-      ],
-    },
-    {
-      title: "qwe",
-      priority: "Moderate Priority",
-      dueDate: "null",
-      status: "backlog",
-      sharedWith: [],
-      checklist: [
-        { label: "Task item 1", checked: false },
-        { label: "Task item 2", checked: true },
-        { label: "Task item 3", checked: false },
-      ],
-    },
-  ]);
+  const [taskList, setTaskList] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [backlogTaskList, setBacklogTaskList] = useState([]);
+  const [todoTaskList, setTodoTaskList] = useState([]);
+  const [progressTaskList, setProgressTaskList] = useState([]);
+  const [doneTaskList, setDoneTaskList] = useState([]);
 
   const name = localStorage.getItem("proManage:username") || "User";
 
@@ -42,22 +24,8 @@ const Board = () => {
     const date = new Date();
     const suffixes = ["th", "st", "nd", "rd"];
     const day = date.getDate();
-    const suffix =
-      suffixes[day % 10 > 3 || Math.floor(day / 10) === 1 ? 0 : day % 10];
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+    const suffix = suffixes[(day % 10 > 3 || Math.floor(day / 10) === 1) ? 0 : day % 10];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
     return `${day}${suffix} ${month}, ${year}`;
@@ -70,22 +38,48 @@ const Board = () => {
     console.log("Saved Task:", taskData);
   };
 
-  const [selectedFilter, setSelectedFilter] = useState("thisWeek");
-
-  const handleFilterChange = (event) => {
+  const handleFilterChange = async (event) => {
     const filterValue = event.target.value;
     setSelectedFilter(filterValue);
-    // onFilterChange(filterValue);
+
+    try {
+      // Use filterTaskByStatus to filter by both due date and status
+      const tasks = await filterTaskByStatus("", filterValue);
+      setTaskList(tasks);
+    } catch (error) {
+      console.error("Error filtering tasks by due date:", error);
+    }
   };
 
-  useEffect(async () => {
-    const list = await getUsersTasks();
-    setTaskList(list);
-  }, []);
+  useEffect(() => {
+    let isMounted = true;
 
+    const fetchTasks = async () => {
+      try {
+        const list = await getUsersTasks();
+        const backList = await filterTaskByStatus("backlog", selectedFilter);
+        const todoList = await filterTaskByStatus("to-do", selectedFilter);
+        const progressList = await filterTaskByStatus("in-progress", selectedFilter);
+        const doneList = await filterTaskByStatus("done", selectedFilter);
 
+        if (isMounted) {
+          setTaskList(list);
+          setBacklogTaskList(backList);
+          setTodoTaskList(todoList);
+          setProgressTaskList(progressList);
+          setDoneTaskList(doneList);
+        }
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
 
-  console.log("qwerty", taskList);
+    fetchTasks();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedFilter]);
 
   return (
     <div className={s.container}>
@@ -97,7 +91,6 @@ const Board = () => {
         <div>
           <h2>Board</h2>
           <span>
-            {" "}
             <img src={people} alt="People" />
             &nbsp;Add People
           </span>
@@ -125,52 +118,36 @@ const Board = () => {
       <div className={s.boxContainer}>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
-            <p>
-              <strong>Backlog</strong>
-            </p>
-            <div>
-              <img src={collapse} alt="collapse" />
-            </div>
+            <p><strong>Backlog</strong></p>
+            <div><img src={collapse} alt="collapse" /></div>
           </div>
-          {taskList?.map((task) => (
+          {backlogTaskList?.map((task) => (
             <TaskCard key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
-            <p>
-              <strong>To do</strong>
-            </p>
+            <p><strong>To do</strong></p>
             <div>
-              <img
-                src={plus}
-                alt="add"
-                onClick={openModal}
-                style={{ cursor: "pointer" }}
-              />
+              <img src={plus} alt="add" onClick={openModal} style={{ cursor: "pointer" }} />
               <img src={collapse} alt="collapse" />
             </div>
           </div>
+          {todoTaskList?.map((task) => (
+            <TaskCard key={task._id} task={task} />
+          ))}
         </div>
         <div className={s.statusContainer}>
-          <div className={s.todoBox}>
-            <p>
-              <strong>In progress</strong>
-            </p>
-            <div>
-              <img src={collapse} alt="collapse" />
-            </div>
-          </div>
+          <div className={s.todoBox}><p><strong>In progress</strong></p><div><img src={collapse} alt="collapse" /></div></div>
+          {progressTaskList?.map((task) => (
+            <TaskCard key={task._id} task={task} />
+          ))}
         </div>
         <div className={s.statusContainer}>
-          <div className={s.todoBox}>
-            <p>
-              <strong>Done</strong>
-            </p>
-            <div>
-              <img src={collapse} alt="collapse" />
-            </div>
-          </div>
+          <div className={s.todoBox}><p><strong>Done</strong></p><div><img src={collapse} alt="collapse" /></div></div>
+          {doneTaskList?.map((task) => (
+            <TaskCard key={task._id} task={task} />
+          ))}
         </div>
       </div>
 

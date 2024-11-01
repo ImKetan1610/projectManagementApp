@@ -7,6 +7,7 @@ import Settings from "./Components/Settings/Settings";
 import AuthPages from "./Components/Pages/AuthPages/AuthPages";
 import Login from "./Components/Auth/Login/Login";
 import Register from "./Components/Auth/Register/Register";
+import ShareTask from "./Components/ShareTask/ShareTask";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +28,7 @@ function App() {
         { path: "register", element: <Register /> },
       ],
     },
+    {path: "/shareTask/:id", element: <ShareTask/>}
   ]);
 
   return <RouterProvider router={router} />;

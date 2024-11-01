@@ -51,7 +51,7 @@ function customHooks() {
   }
 
   /***** Task *****/
-  async function getUsersTasks(req, res) {
+  async function getUsersTasks() {
     try {
       const res = await apiClient.get(`/api/tasks`);
       if (res.status === 200) {
@@ -68,7 +68,122 @@ function customHooks() {
     }
   }
 
-  return { updateProfile, createTask, getUsersTasks };
+  async function filterTaskByDueDate(filter) {
+    try {
+      const res = await apiClient.get(`/api/tasks/filter`, {
+        params: { filter },
+      });
+
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        throw new Error("Failed to filter tasks by due date.");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return error.response.data.message;
+      } else {
+        return error.message;
+      }
+    }
+  }
+
+  async function filterTaskByStatus(status, filter) {
+    try {
+      const userId = localStorage.getItem("proManage:userId"); // Assumes user ID is stored in local storage
+      const res = await apiClient.get(`/api/tasks/filterByStatus`, {
+        params: { userId, status, filter },
+      });
+
+      if (res.status === 200) {
+        return res.data; // Successfully retrieved filtered tasks
+      } else {
+        throw new Error("Failed to filter tasks by status.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
+  async function updateStatus(taskId, newStatus) {
+    try {
+      const res = await apiClient.put(`/api/tasks/${taskId}/status`, {
+        status: newStatus,
+      });
+
+      if (res.status === 200) {
+        return res.data; // Successfully updated status
+      } else {
+        throw new Error("Failed to update task status.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
+  async function filterByPriority(priority) {
+    // Validate priority parameter
+    const validPriorities = [
+      "Low Priority",
+      "Moderate Priority",
+      "High Priority",
+    ];
+    if (!validPriorities.includes(priority)) {
+      throw new Error(
+        "Invalid priority value. Allowed values: low, moderate, high."
+      );
+    }
+
+    try {
+      const res = await apiClient.get(`/api/tasks/priority/${priority}`);
+      if (res.status === 200) {
+        return res.data; // Successfully retrieved tasks by priority
+      } else {
+        throw new Error("Failed to filter tasks by priority.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
+  async function dueDateTasks() {
+    try {
+      const res = await apiClient.get(`/api/tasks/dueDateTasks`);
+      if (res.status === 200) {
+        return res.data; // Successfully retrieved tasks by priority
+      } else {
+        throw new Error("Failed to filter tasks by priority.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
+  async function getTaskById(id) {
+    console.log("getTaskById", id);
+    try {
+      const res = await apiClient.get(`/api/tasks/${id}`);
+      return res.data;
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
+  async function deleteTask () {
+    
+  }
+
+  return {
+    updateProfile,
+    createTask,
+    getUsersTasks,
+    filterTaskByDueDate,
+    filterTaskByStatus,
+    updateStatus,
+    filterByPriority,
+    dueDateTasks,
+    getTaskById,
+  };
 }
 
 export default customHooks;
