@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import customHooks from "../CustomHooks/CustomHooks";
 import { useParams } from "react-router-dom";
 import s from "./ShareTask.module.css";
@@ -39,10 +39,8 @@ const ShareTask = () => {
 
       <h3 className={s.taskTitle}>{data.title || "Untitled Task"}</h3>
 
-      {/* Optionally, display more task details */}
       <div className={s.taskDetails}>
         <p>{data.description || "No description provided."}</p>
-        {/* Add other task details as necessary */}
       </div>
     </div>
   );
