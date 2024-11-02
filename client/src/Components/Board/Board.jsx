@@ -6,10 +6,12 @@ import TaskModal from "../TaskModal/TaskModal";
 import TaskCard from "../TaskCard/Taskcard";
 import customHooks from "../CustomHooks/CustomHooks";
 import people from "../../assets/peopleIcon.svg";
+import PeopleModal from "../PeopleModal/PeopleModal"; // Import PeopleModal
 
 const Board = () => {
   const { getUsersTasks, filterTaskByStatus } = customHooks();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPeopleModalOpen, setIsPeopleModalOpen] = useState(false); // State for PeopleModal
   const [taskList, setTaskList] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [backlogTaskList, setBacklogTaskList] = useState([]);
@@ -47,6 +49,8 @@ const Board = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const openPeopleModal = () => setIsPeopleModalOpen(true); // Open PeopleModal
+  const closePeopleModal = () => setIsPeopleModalOpen(false); // Close PeopleModal
 
   const handleSaveTask = (taskData) => {
     console.log("Saved Task:", taskData);
@@ -57,7 +61,6 @@ const Board = () => {
     setSelectedFilter(filterValue);
 
     try {
-      // Use filterTaskByStatus to filter by both due date and status
       const tasks = await filterTaskByStatus("", filterValue);
       setTaskList(tasks);
     } catch (error) {
@@ -76,25 +79,18 @@ const Board = () => {
       );
       const doneList = await filterTaskByStatus("done", selectedFilter);
 
-      // if (isMounted) {
       setTodoTaskList(todoList);
       setTaskList(list);
       setBacklogTaskList(backList);
       setProgressTaskList(progressList);
       setDoneTaskList(doneList);
-      // }
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
   };
 
   useEffect(() => {
-    // let isMounted = true;
     fetchTasks();
-
-    // return () => {
-    //   isMounted = false;
-    // };
   }, []);
 
   return (
@@ -106,7 +102,7 @@ const Board = () => {
       <div className={s.boardTitle}>
         <div>
           <h2>Board</h2>
-          <span>
+          <span className={s.assig} onClick={openPeopleModal}>
             <img src={people} alt="People" />
             &nbsp;Add People
           </span>
@@ -131,6 +127,7 @@ const Board = () => {
           </select>
         </div>
       </div>
+
       <div className={s.boxContainer}>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
@@ -198,6 +195,7 @@ const Board = () => {
         onSave={handleSaveTask}
         fetchData={fetchTasks}
       />
+      <PeopleModal isOpen={isPeopleModalOpen} onClose={closePeopleModal} />
     </div>
   );
 };

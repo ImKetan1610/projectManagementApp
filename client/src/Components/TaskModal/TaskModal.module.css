@@ -21,8 +21,8 @@
   position: relative;
   font-family: "Poppins", sans-serif;
 }
-.modalContent>div {
-    margin-top: 1.5rem;
+.modalContent > div {
+  margin-top: 1.5rem;
 }
 
 .titleInput {
@@ -71,38 +71,37 @@
 }
 
 .checklistItemsDiv {
-    max-height: 200px !important;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin; 
-    scrollbar-color: grey transparent; 
+  max-height: 200px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: grey transparent;
 }
 
 .checklistItemsDiv::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
 }
 
 .checklistItemsDiv::-webkit-scrollbar-track {
-    background: transparent; 
+  background: transparent;
 }
 
 .checklistItemsDiv::-webkit-scrollbar-thumb {
-    background: transparent;
-    border-radius: 1rem;
+  background: transparent;
+  border-radius: 1rem;
 }
 
-
 .checklistItemsDiv:hover::-webkit-scrollbar-thumb {
-    background: #888; /* Color when hovered */
+  background: #888; /* Color when hovered */
 }
 
 /* Optional: make scrollbar disappear when not needed */
 .checklistItemsDiv::-webkit-scrollbar {
-    display: none; /* Hide scrollbar when not hovered */
+  display: none; /* Hide scrollbar when not hovered */
 }
 
 .checklistItemsDiv:hover::-webkit-scrollbar {
-    display: block; /* Show scrollbar when hovered */
+  display: block; /* Show scrollbar when hovered */
 }
 
 .checklistItem div {
@@ -169,4 +168,17 @@
 
 sup {
   color: red;
+}
+
+.checkbox {
+  width: 1rem;
+  margin-left: 1rem;
+}
+.checklistInput {
+  border: 0;
+  padding-left: 1rem;
+}
+.checklistInput:focus {
+  border: 0;
+  padding-left: 1rem;
 }

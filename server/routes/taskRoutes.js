@@ -11,6 +11,7 @@ const {
   dueDateTasks,
   getTaskById,
   editTask,
+  boardPeople,
 } = require("../controllers/taskController");
 const { protect } = require("../config/authMiddleware");
 const router = express.Router();
@@ -37,5 +38,15 @@ router.get("/:id", getTaskById);
 
 // PUT /tasks/:id - Update a task by ID
 router.put("/:id", protect, editTask);
+
+router.put(
+  "/addpeople",
+  protect,
+  (next) => {
+    console.log("hey");
+    next();
+  },
+  boardPeople
+);
 
 module.exports = router;

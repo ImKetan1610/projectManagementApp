@@ -187,11 +187,8 @@ const TaskCard = ({ task, fetchData }) => {
                 <img src={lp} alt="low" /> &nbsp; LOW PRIORITY
               </button>
             </div>
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            />
+
+
             <ul>
               {checklist.map((item, index) => (
                 <li key={index}>
@@ -213,8 +210,18 @@ const TaskCard = ({ task, fetchData }) => {
               ))}
             </ul>
             <button onClick={handleAddChecklistItem}>Add Checklist Item</button>
-            <button onClick={handleSaveEdit}>Save</button>
-            <button onClick={() => setShowEditModal(false)}>Cancel</button>
+
+            <div className={s.editModalButtons}>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
+              <div>
+                <button onClick={handleSaveEdit}>Save</button>
+                <button onClick={() => setShowEditModal(false)}>Cancel</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -17,7 +17,7 @@ const taskSchema = mongoose.Schema(
     },
     category: { type: String, required: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    sharedWith: [{ type: String, required: false }],
+    sharedWith: { type: String , ref:"User", default: null},
     checklist: [checklistSchema],
   },
   {

@@ -252,8 +252,49 @@
   width: 40%;
 }
 
+.modalContent input {
+  width: 90%;
+}
+
 .modalContent > div {
   width: 90%;
+}
+
+.prioritySection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.prioritySection >button {
+  margin-left: 10px;
+  font-size: 10px;
+  border-radius: 8px;
+  border: 0;
+  padding: 1% 2%;
+}
+
+.editModalButtons{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editModalButtons >input:first-child{
+  width: 20%;
+}
+
+.editModalButtons > div {
+  width: 60%;
+  display: flex;
+  justify-content: end;
+  gap:2rem
+}
+
+.editModalButtons > div  button {
+  padding: 2% 3%;
+  border-radius: 8px;
+  border: 0
 }
 
 .confirmButton,

@@ -204,6 +204,23 @@ function customHooks() {
     }
   };
 
+  const addPeople = async (id) => {
+    console.log("Assignee ID:", id); // Check what value is being passed
+    try {
+      const res = await apiClient.put(`/api/tasks/addpeople`, {
+        assigneeId: id,
+      });
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        throw new Error("Failed to add people.");
+      }
+    } catch (error) {
+      console.error("Error in addPeople:", error);
+      return error.response?.data?.message || error.message;
+    }
+  };
+
   return {
     updateProfile,
     createTask,
@@ -217,6 +234,7 @@ function customHooks() {
     deleteTask,
     editTask,
     getAllUser,
+    addPeople,
   };
 }
 

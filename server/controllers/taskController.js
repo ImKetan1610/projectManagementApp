@@ -29,8 +29,6 @@ const createTask = async (req, res) => {
 };
 
 const getUserTask = async (req, res) => {
-  console.log("getUserTask",req.user)
-  
   try {
     const id = req.user._id;
     const allTasks = await Task.find({ user: id });
@@ -157,8 +155,12 @@ const filterByStatus = async (req, res) => {
     }
 
     // Build the query object
-    const query = { user: userId, ...(status && { status }), ...dateQuery };
-
+    const query = {
+      $or: [
+        { sharedWith: req.user._id, ...(status && { status }), ...dateQuery },
+        { user: req.user._id, ...(status && { status }), ...dateQuery },
+      ],
+    };
     // Find tasks based on query
     const tasks = await Task.find(query);
     return res.status(200).json(tasks);
@@ -244,16 +246,6 @@ const editTask = async (req, res) => {
     req.body;
   const taskId = req.params.id;
 
-  console.log("Ketan",
-    title,
-    priority,
-    dueDate,
-    status,
-    category,
-    sharedWith,
-    checklist
-  );
-
   try {
     // Find the task by ID and update it
     const updatedTask = await Task.findByIdAndUpdate(
@@ -275,13 +267,38 @@ const editTask = async (req, res) => {
     }
 
     // Return the updated task
-    res.status(200).json(updatedTask);
+    return res.status(200).json(updatedTask);
   } catch (error) {
     // Handle errors (e.g., validation errors)
     if (error.name === "ValidationError") {
       return res.status(400).json({ message: error.message });
     }
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
+};
+
+const boardPeople = async (req, res) => {
+  try {
+    const { assigneeId } = req.body;
+
+    // Check if the assigneeId is provided in the request
+    if (!assigneeId) {
+      return res.status(400).json({ message: "Assignee ID is required." });
+    }
+
+    // Update the tasks for the logged-in user by adding the assigneeId
+    const result = await Task.updateMany(
+      { user: req.user._id },
+      { $set: { sharedWith: assigneeId } }
+    );
+
+    // Return success response
+    return res.status(200).json({ message: "People added successfully", result });
+  } catch (error) {
+    console.error("Error in boardPeople:", error);
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -297,4 +314,5 @@ module.exports = {
   dueDateTasks,
   getTaskById,
   editTask,
+  boardPeople,
 };

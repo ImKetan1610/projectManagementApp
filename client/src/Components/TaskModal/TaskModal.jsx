@@ -18,8 +18,8 @@ const TaskModal = ({
 
   // Initialize states with taskData if in edit mode
   const [title, setTitle] = useState(taskData?.title || "");
-  const [priority, setPriority] = useState(taskData?.priority || "");
-  const [assignedTo, setAssignedTo] = useState(taskData?.assignedTo || "");
+  const [priority, setPriority] = useState(taskData?.priority || "Low Priority");
+  const [assignedTo, setAssignedTo] = useState(taskData?.assignedTo || null);
   const [checklist, setChecklist] = useState(
     taskData?.checklist?.map((item, index) => ({
       id: index,
@@ -44,8 +44,9 @@ const TaskModal = ({
   }, [isOpen]);
 
   useEffect(() => {
-    getAllUser().then((res) => setAllUsers(res.data));
+    getAllUser().then((res) => setAllUsers(res));
   }, []);
+  console.log(allUsers);
 
   const handlePriorityChange = (level) => setPriority(level);
 
@@ -75,11 +76,12 @@ const TaskModal = ({
   };
 
   const handleSave = async () => {
+    let assigned = assignedTo == null ? "" : assignedTo;
     const taskData = {
       title,
       priority,
       dueDate,
-      assignedTo,
+      sharedWith: assigned,
       user: userId,
       checklist: checklist.map((item) => ({
         label: item.text,
@@ -165,7 +167,15 @@ const TaskModal = ({
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
           /> */}
-          <select name="assignedTo" id="" value={assignedTo}>
+          <select
+            name="assignedTo"
+            id=""
+            value={assignedTo}
+            onChange={(e) => setAssignedTo(e.target.value)}
+          >
+            <option value={null}>
+              Select Assigne
+            </option>
             {allUsers?.map((user) => (
               <option key={user._id} value={user._id}>
                 {user.email}
@@ -193,6 +203,7 @@ const TaskModal = ({
                   onChange={(e) =>
                     handleChecklistChange(item.id, e.target.value)
                   }
+                  placeholder="Please enter the tasks"
                   className={s.checklistInput}
                 />
                 <button
