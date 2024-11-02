@@ -6,8 +6,15 @@ import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
 
-const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData }) => {
-  const { createTask, updateTask } = customHooks();
+const TaskModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  isEditMode,
+  taskData,
+  fetchData,
+}) => {
+  const { createTask, updateTask, getAllUser } = customHooks();
 
   // Initialize states with taskData if in edit mode
   const [title, setTitle] = useState(taskData?.title || "");
@@ -21,6 +28,7 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData })
     })) || [{ id: 1, text: "", completed: false }]
   );
   const [dueDate, setDueDate] = useState(taskData?.dueDate || "");
+  const [allUsers, setAllUsers] = useState([]);
 
   const userId = localStorage.getItem("proManage:userId");
 
@@ -34,6 +42,10 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData })
       setDueDate("");
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    getAllUser().then((res) => setAllUsers(res.data));
+  }, []);
 
   const handlePriorityChange = (level) => setPriority(level);
 
@@ -97,12 +109,6 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData })
 
   const completedCount = checklist.filter((item) => item.completed).length;
 
-  const handleChecklistEdit = (index, newLabel) => {
-    const updatedChecklist = [...checklist];
-    updatedChecklist[index].text = newLabel;
-    setChecklist(updatedChecklist);
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -153,12 +159,19 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData })
 
         <div className={s.assignSection}>
           <label>Assign to:</label>
-          <input
+          {/* <input
             type="text"
             placeholder="Add an assignee"
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
-          />
+          /> */}
+          <select name="assignedTo" id="" value={assignedTo}>
+            {allUsers?.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.email}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={s.checklistSection}>

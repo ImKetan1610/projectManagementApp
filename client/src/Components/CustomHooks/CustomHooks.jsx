@@ -191,6 +191,19 @@ function customHooks() {
     }
   }
 
+  const getAllUser = async () => {
+    try {
+      const res = await apiClient.get(`/api/users`);
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        throw new Error("Failed to get All the users in the dbs.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  };
+
   return {
     updateProfile,
     createTask,
@@ -203,6 +216,7 @@ function customHooks() {
     getTaskById,
     deleteTask,
     editTask,
+    getAllUser,
   };
 }
 

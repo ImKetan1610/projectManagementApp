@@ -23,6 +23,6 @@ router.post("/login", loginValidation, validate, login);
 router.put("/update-profile", protect, updateProfile);
 
 // get all the users
-router.get("/", getAllUsers);
+router.get("/", protect, getAllUsers);
 
 module.exports = router;
