@@ -1,68 +1,103 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import s from "./TaskCard.module.css";
 import up from "../../assets/ArrowUp.svg";
 import down from "../../assets/ArrowDown.svg";
+import hp from "../../assets/HighPriorityIcon.svg";
+import mp from "../../assets/ModeratePriorityIcon.svg";
+import lp from "../../assets/LowPriorityIcon.svg";
+import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
-import { BACKEND_URL } from "../../utils/constant";
 
 const TaskCard = ({ task }) => {
-  const { updateStatus, deleteTask } = customHooks();
+  const { updateStatus, deleteTask, editTask } = customHooks();
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
-  const [status, setStatus] = useState("Backlog");
   const [showOptions, setShowOptions] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [showModal, setShowModal] = useState(false); // State for the modal
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTitle, setEditTitle] = useState(task.title);
+  const [editPriority, setEditPriority] = useState(task.priority);
+  const [dueDate, setDueDate] = useState(null);
+  const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState(task.status);
 
-  const handleToggleChecklist = () => setShowChecklist(!showChecklist);
+  useEffect(() => {
+    setChecklist(task.checklist);
+    setEditTitle(task.title);
+    setEditPriority(task.priority);
+    setDueDate(task.dueDate);
+    setStatus(task.status);
+  }, [task]);
+
+  const handleToggleChecklist = () => setShowChecklist((prev) => !prev);
 
   const handleChecklistToggle = (index) => {
-    const updatedChecklist = [...checklist];
-    updatedChecklist[index].checked = !updatedChecklist[index].checked;
-    setChecklist(updatedChecklist);
+    setChecklist((prev) => {
+      const updatedChecklist = [...prev];
+      updatedChecklist[index].checked = !updatedChecklist[index].checked;
+      return updatedChecklist;
+    });
   };
 
   const completedCount = checklist.filter((item) => item.checked).length;
 
   const formatDueDate = (dateString) => {
-    if (dateString == null || dateString === "null") return "";
+    if (!dateString) return "";
     const date = new Date(dateString);
     const options = { month: "short", day: "numeric" };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-    const day = date.getDate();
-
-    const ordinalSuffix =
-      day % 10 === 1 && day !== 11
-        ? "st"
-        : day % 10 === 2 && day !== 12
-        ? "nd"
-        : day % 10 === 3 && day !== 13
-        ? "rd"
-        : "th";
-
-    return `${formattedDate}${ordinalSuffix}`;
+    return `${date.toLocaleDateString("en-US", options)}${getOrdinalSuffix(
+      date.getDate()
+    )}`;
   };
 
-  // Function to handle copying the link
+  const getOrdinalSuffix = (day) => {
+    return day % 10 === 1 && day !== 11
+      ? "st"
+      : day % 10 === 2 && day !== 12
+      ? "nd"
+      : day % 10 === 3 && day !== 13
+      ? "rd"
+      : "th";
+  };
+
   const handleShareClick = () => {
-    const shareableLink = window.location.origin + `/shareTask/${task._id}`;
+    const shareableLink = `${window.location.origin}/shareTask/${task._id}`;
     navigator.clipboard
       .writeText(shareableLink)
       .then(() => {
         setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000); // Hide toast after 2 seconds
+        setTimeout(() => setShowToast(false), 2000);
       })
       .catch((err) => console.error("Could not copy text: ", err));
   };
 
-  // Function to handle delete action
-  const handleDelete = () => {
-    // Make an API call to delete the task (Assuming you have an endpoint for it)
-    // Here is a mock implementation, replace it with actual delete logic
-    deleteTask(task._id);
+  const handleDelete = async () => {
+    await deleteTask(task._id);
+    setShowModal(false);
+  };
 
-    setShowModal(false); // Close the modal after deletion
-    window.location.reload();
+  const handleSaveEdit = async () => {
+    try {
+      await editTask(task._id, {
+        title: editTitle,
+        priority,
+        dueDate,
+        checklist,
+        status,
+      });
+      setShowEditModal(false);
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
+  const handleAddChecklistItem = () => {
+    setChecklist((prev) => [...prev, { label: "", checked: false }]);
+  };
+
+  const handleDeleteChecklistItem = (index) => {
+    setChecklist((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -70,7 +105,7 @@ const TaskCard = ({ task }) => {
       {/* Toast Notification */}
       {showToast && <div className={s.toast}>Link Copied!</div>}
 
-      {/* Modal for Confirmation */}
+      {/* Delete Confirmation Modal */}
       {showModal && (
         <div className={s.modal}>
           <div className={s.modalContent}>
@@ -88,6 +123,51 @@ const TaskCard = ({ task }) => {
         </div>
       )}
 
+      {/* Edit Task Modal */}
+      {showEditModal && (
+        <div className={s.modal}>
+          <div className={s.modalContent}>
+            <h2>Edit Task</h2>
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+            />
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+            <ul>
+              {checklist.map((item, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => handleChecklistToggle(index)}
+                  />
+                  <span>{item.label}</span>
+                  <button onClick={() => handleDeleteChecklistItem(index)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleAddChecklistItem}>Add Checklist Item</button>
+            <button onClick={handleSaveEdit}>Save</button>
+            <button onClick={() => setShowEditModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
       {/* Header with Priority and Options */}
       <div className={s.taskHeader}>
         <div>
@@ -96,7 +176,6 @@ const TaskCard = ({ task }) => {
           </div>
           <span className={`${s.priority}`}>{task.priority.toUpperCase()}</span>
         </div>
-
         <span
           className={s.options}
           onClick={() => setShowOptions(!showOptions)}
@@ -107,7 +186,12 @@ const TaskCard = ({ task }) => {
         {/* Dropdown Menu */}
         {showOptions && (
           <div className={s.dropdown}>
-            <div className={s.dropdownOption}>Edit</div>
+            <div
+              className={s.dropdownOption}
+              onClick={() => setShowEditModal(true)}
+            >
+              Edit
+            </div>
             <div className={s.dropdownOption} onClick={handleShareClick}>
               Share
             </div>
@@ -121,10 +205,8 @@ const TaskCard = ({ task }) => {
         )}
       </div>
 
-      {/* Title */}
+      {/* Rest of your TaskCard component */}
       <h3 className={s.taskTitle}>{task.title}</h3>
-
-      {/* Checklist Toggle and Count */}
       <div className={s.checklistHeader}>
         <span>
           Checklist ({completedCount}/{checklist.length})
@@ -138,7 +220,6 @@ const TaskCard = ({ task }) => {
         </button>
       </div>
 
-      {/* Checklist Items */}
       {showChecklist && (
         <ul className={s.checklist}>
           {checklist.map((item, index) => (

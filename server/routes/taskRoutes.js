@@ -9,7 +9,8 @@ const {
   updateStatus,
   getTasksByPriority,
   dueDateTasks,
-  getTaskById
+  getTaskById,
+  editTask
 } = require("../controllers/taskController");
 const { protect } = require("../config/authMiddleware");
 const router = express.Router();
@@ -33,5 +34,8 @@ router.get("/dueDateTasks", protect, dueDateTasks);
 
 // get task by id
 router.get("/:id", getTaskById);
+
+// PUT /tasks/:id - Update a task by ID
+router.put('/:id', editTask)
 
 module.exports = router;

@@ -164,6 +164,15 @@
   background: #f0f0f0;
 }
 
+.checklistInput {
+  border: 0px solid transparent;
+}
+
+.checklistItem button {
+  border: 0;
+  background-color: transparent;
+}
+
 /* Dropdown Container */
 .dropdown {
   position: absolute;
@@ -221,8 +230,6 @@
   transition: opacity 0.3s ease;
 }
 
-/* Add these styles to TaskCard.module.css */
-
 .modal {
   position: fixed;
   top: 0;
@@ -242,6 +249,11 @@
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 40%;
+}
+
+.modalContent > div {
+  width: 90%;
 }
 
 .confirmButton,
@@ -263,8 +275,7 @@
   color: white;
 }
 
-
-.high_priority{
+.high_priority {
   background-color: #cf3636;
   padding: 5px;
   border: 1px solid transparent;
@@ -272,7 +283,7 @@
   color: white;
 }
 
-.moderate_priority{
+.moderate_priority {
   background-color: #18b0ff;
   padding: 5px;
   border: 1px solid transparent;
@@ -280,7 +291,7 @@
   color: white;
 }
 
-.low_priority{
+.low_priority {
   background-color: #63c05b;
   padding: 5px;
   border: 1px solid transparent;

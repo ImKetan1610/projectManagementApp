@@ -238,6 +238,42 @@ const getTaskById = async (req, res) => {
   }
 };
 
+const editTask = async (req, res) => {
+  const { title, priority, dueDate, status, category, sharedWith, checklist } =
+    req.body;
+  const taskId = req.params.id;
+
+  try {
+    // Find the task by ID and update it
+    const updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      {
+        title,
+        priority,
+        dueDate,
+        status,
+        category,
+        sharedWith,
+        checklist,
+      },
+      { new: true, runValidators: true } // options: return the updated document, validate the data
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    // Return the updated task
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    // Handle errors (e.g., validation errors)
+    if (error.name === "ValidationError") {
+      return res.status(400).json({ message: error.message });
+    }
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 module.exports = {
   getUserTask,
   createTask,
@@ -249,4 +285,5 @@ module.exports = {
   getTasksByPriority,
   dueDateTasks,
   getTaskById,
+  editTask,
 };

@@ -178,6 +178,19 @@ function customHooks() {
     }
   }
 
+  async function editTask(id, updatedData) {
+    try {
+      const res = await apiClient.put(`/api/tasks/${id}`, updatedData);
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        throw new Error("Failed to update the task.");
+      }
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
+  }
+
   return {
     updateProfile,
     createTask,
@@ -189,6 +202,7 @@ function customHooks() {
     dueDateTasks,
     getTaskById,
     deleteTask,
+    editTask,
   };
 }
 

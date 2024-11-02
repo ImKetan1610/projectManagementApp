@@ -1,23 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import s from "./TaskModal.module.css";
 import hp from "../../assets/HighPriorityIcon.svg";
 import mp from "../../assets/ModeratePriorityIcon.svg";
 import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
-import customHooks from "../CustomHooks/CustomHooks"; // Import custom hook
+import customHooks from "../CustomHooks/CustomHooks";
 
-const TaskModal = ({ isOpen, onClose, onSave }) => {
-  const { createTask } = customHooks(); // Use custom hook to access createTask function
+const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
+  const { createTask, updateTask } = customHooks(); // Assume updateTask is added in custom hooks
 
-  const [title, setTitle] = useState("");
-  const [priority, setPriority] = useState("");
-  const [assignedTo, setAssignedTo] = useState("");
-  const [checklist, setChecklist] = useState([
-    { id: 1, text: "", completed: false },
-  ]);
-  const [dueDate, setDueDate] = useState("");
+  // Initialize states with taskData if in edit mode
+  const [title, setTitle] = useState(taskData?.title || "");
+  const [priority, setPriority] = useState(taskData?.priority || "");
+  const [assignedTo, setAssignedTo] = useState(taskData?.assignedTo || "");
+  const [checklist, setChecklist] = useState(
+    taskData?.checklist?.map((item, index) => ({
+      id: index,
+      text: item.label,
+      completed: item.checked,
+    })) || [{ id: 1, text: "", completed: false }]
+  );
+  const [dueDate, setDueDate] = useState(taskData?.dueDate || "");
 
   const userId = localStorage.getItem("proManage:userId");
+
+  // Reset states if modal closes and reopens
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle("");
+      setPriority("");
+      setAssignedTo("");
+      setChecklist([{ id: 1, text: "", completed: false }]);
+      setDueDate("");
+    }
+  }, [isOpen]);
 
   const handlePriorityChange = (level) => setPriority(level);
 
@@ -60,21 +76,32 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
     };
 
     try {
-      const response = await createTask(taskData);
+      const response = isEditMode
+        ? await updateTask(taskData) // Update task if in edit mode
+        : await createTask(taskData); // Create new task if not in edit mode
+
       if (response) {
-        onSave(); // Optional: pass data to parent component if needed
+        onSave();
         onClose();
         window.location.reload();
       } else {
-        console.error("Failed to create task.");
+        console.error(`Failed to ${isEditMode ? "update" : "create"} task.`);
       }
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error(
+        `Error ${isEditMode ? "updating" : "creating"} task:`,
+        error
+      );
     }
-
   };
 
   const completedCount = checklist.filter((item) => item.completed).length;
+
+  const handleChecklistEdit = (index, newLabel) => {
+    const updatedChecklist = [...checklist];
+    updatedChecklist[index].label = newLabel;
+    setChecklist(updatedChecklist);
+  };
 
   if (!isOpen) return null;
 
@@ -139,24 +166,23 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
             Checklist ({completedCount}/{checklist.length}) <sup>*</sup>
           </label>
           <div className={s.checklistItemsDiv}>
-            {checklist.map((item) => (
+            {checklist.map((item, index) => (
               <div key={item.id} className={s.checklistItem}>
-                <div>
+                <li key={index} className={s.checklistItem}>
                   <input
                     type="checkbox"
-                    checked={item.completed}
-                    onChange={() => handleChecklistToggle(item.id)}
+                    checked={item.checked}
+                    onChange={() => handleChecklistToggle(index)}
+                    className={s.checkbox}
                   />
                   <input
                     type="text"
                     value={item.text}
-                    onChange={(e) =>
-                      handleChecklistChange(item.id, e.target.value)
-                    }
+                    onChange={(e) => handleChecklistEdit(index, e.target.value)}
                     className={s.checklistInput}
-                    placeholder="Please add checklist item here"
                   />
-                </div>
+                </li>
+
                 <button
                   onClick={() => handleDeleteChecklistItem(item.id)}
                   className={s.deleteButton}
