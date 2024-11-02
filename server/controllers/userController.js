@@ -58,6 +58,7 @@ const login = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error. " + error });
   }
 };
+
 const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -81,8 +82,9 @@ const updateProfile = async (req, res) => {
       }
 
       // Hash and update the new password
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(req.body.newPassword, salt);
+      // const salt = await bcrypt.genSalt(10);
+      // user.password = await bcrypt.hash(req.body.newPassword, salt);
+      user.password = req.body.newPassword;
     } else if (req.body.newPassword && !req.body.oldPassword) {
       return res.status(400).json({
         message: "Please provide the old password to change your password.",

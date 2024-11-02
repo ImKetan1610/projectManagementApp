@@ -39,6 +39,7 @@ const TaskCard = ({ task }) => {
     setEditPriority(task.priority);
     setDueDate(updated);
     setStatus(task.status);
+    handlePriorityChange(task.priority);
   }, [task]);
 
   const handleToggleChecklist = () => setShowChecklist((prev) => !prev);
@@ -52,8 +53,8 @@ const TaskCard = ({ task }) => {
   };
 
   const completedCount = checklist.filter((item) => item.checked).length;
-  
-  const handlePriorityChange = (level) => setPriority(level);
+
+  const handlePriorityChange = (level) => setPriority(() => level);
 
   const formatDueDate = (dateString) => {
     if (!dateString) return "";
@@ -156,35 +157,35 @@ const TaskCard = ({ task }) => {
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
             />
-           <div className={s.prioritySection}>
-          <p>
-            Select Priority:<sup>*</sup>
-          </p>
-          <button
-            className={`${s.priorityButton} ${
-              priority === "High Priority" ? s.active : ""
-            }`}
-            onClick={() => handlePriorityChange("High Priority")}
-          >
-            <img src={hp} alt="high" /> &nbsp; HIGH PRIORITY
-          </button>
-          <button
-            className={`${s.priorityButton} ${
-              priority === "Moderate Priority" ? s.active : ""
-            }`}
-            onClick={() => handlePriorityChange("Moderate Priority")}
-          >
-            <img src={mp} alt="moderate" /> &nbsp; MODERATE PRIORITY
-          </button>
-          <button
-            className={`${s.priorityButton} ${
-              priority === "Low Priority" ? s.active : ""
-            }`}
-            onClick={() => handlePriorityChange("Low Priority")}
-          >
-            <img src={lp} alt="low" /> &nbsp; LOW PRIORITY
-          </button>
-        </div>
+            <div className={s.prioritySection}>
+              <p>
+                Select Priority:<sup>*</sup>
+              </p>
+              <button
+                className={`${s.priorityButton} ${
+                  priority === "High Priority" ? s.active : ""
+                }`}
+                onClick={() => handlePriorityChange("High Priority")}
+              >
+                <img src={hp} alt="high" /> &nbsp; HIGH PRIORITY
+              </button>
+              <button
+                className={`${s.priorityButton} ${
+                  priority === "Moderate Priority" ? s.active : ""
+                }`}
+                onClick={() => handlePriorityChange("Moderate Priority")}
+              >
+                <img src={mp} alt="moderate" /> &nbsp; MODERATE PRIORITY
+              </button>
+              <button
+                className={`${s.priorityButton} ${
+                  priority === "Low Priority" ? s.active : ""
+                }`}
+                onClick={() => handlePriorityChange("Low Priority")}
+              >
+                <img src={lp} alt="low" /> &nbsp; LOW PRIORITY
+              </button>
+            </div>
             <input
               type="date"
               value={dueDate}

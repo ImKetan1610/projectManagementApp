@@ -72,8 +72,8 @@ const Board = () => {
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
-    };
 
+    };
     fetchTasks();
 
     return () => {

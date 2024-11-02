@@ -107,7 +107,7 @@ function customHooks() {
 
   async function updateStatus(taskId, newStatus) {
     try {
-      const res = await apiClient.put(`/api/tasks/status/${taskId}/status`, {
+      const res = await apiClient.put(`/api/tasks/status/${taskId}`, {
         status: newStatus,
       });
 

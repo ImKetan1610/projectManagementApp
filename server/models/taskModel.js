@@ -13,7 +13,7 @@ const taskSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["backlog", "to-do", "in-progress", "done"],
-      default: "backlog",
+      default: "to-do",
     },
     category: { type: String, required: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

@@ -7,7 +7,7 @@ import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
 
 const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
-  const { createTask, updateTask } = customHooks(); // Assume updateTask is added in custom hooks
+  const { createTask, updateTask } = customHooks();
 
   // Initialize states with taskData if in edit mode
   const [title, setTitle] = useState(taskData?.title || "");
@@ -17,7 +17,7 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
     taskData?.checklist?.map((item, index) => ({
       id: index,
       text: item.label,
-      completed: item.checked,
+      completed: item.checked, // Change 'checked' to 'completed' to match state
     })) || [{ id: 1, text: "", completed: false }]
   );
   const [dueDate, setDueDate] = useState(taskData?.dueDate || "");
@@ -77,8 +77,8 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
 
     try {
       const response = isEditMode
-        ? await updateTask(taskData) // Update task if in edit mode
-        : await createTask(taskData); // Create new task if not in edit mode
+        ? await updateTask(taskData)
+        : await createTask(taskData);
 
       if (response) {
         onSave();
@@ -99,7 +99,7 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
 
   const handleChecklistEdit = (index, newLabel) => {
     const updatedChecklist = [...checklist];
-    updatedChecklist[index].label = newLabel;
+    updatedChecklist[index].text = newLabel;
     setChecklist(updatedChecklist);
   };
 
@@ -166,23 +166,22 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
             Checklist ({completedCount}/{checklist.length}) <sup>*</sup>
           </label>
           <div className={s.checklistItemsDiv}>
-            {checklist.map((item, index) => (
+            {checklist.map((item) => (
               <div key={item.id} className={s.checklistItem}>
-                <li key={index} className={s.checklistItem}>
-                  <input
-                    type="checkbox"
-                    checked={item.checked}
-                    onChange={() => handleChecklistToggle(index)}
-                    className={s.checkbox}
-                  />
-                  <input
-                    type="text"
-                    value={item.text}
-                    onChange={(e) => handleChecklistEdit(index, e.target.value)}
-                    className={s.checklistInput}
-                  />
-                </li>
-
+                <input
+                  type="checkbox"
+                  checked={item.completed} // Use 'completed' instead of 'checked'
+                  onChange={() => handleChecklistToggle(item.id)}
+                  className={s.checkbox}
+                />
+                <input
+                  type="text"
+                  value={item.text}
+                  onChange={(e) =>
+                    handleChecklistChange(item.id, e.target.value)
+                  }
+                  className={s.checklistInput}
+                />
                 <button
                   onClick={() => handleDeleteChecklistItem(item.id)}
                   className={s.deleteButton}
