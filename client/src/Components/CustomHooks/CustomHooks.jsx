@@ -169,8 +169,13 @@ function customHooks() {
     }
   }
 
-  async function deleteTask () {
-    
+  async function deleteTask(id) {
+    try {
+      const res = await apiClient.delete(`/api/tasks/${id}`);
+      return res.data;
+    } catch (error) {
+      return error.response?.data?.message || error.message;
+    }
   }
 
   return {
@@ -183,6 +188,7 @@ function customHooks() {
     filterByPriority,
     dueDateTasks,
     getTaskById,
+    deleteTask,
   };
 }
 

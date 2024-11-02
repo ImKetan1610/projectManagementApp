@@ -6,7 +6,7 @@ import customHooks from "../CustomHooks/CustomHooks";
 import { BACKEND_URL } from "../../utils/constant";
 
 const TaskCard = ({ task }) => {
-  const { updateStatus } = customHooks();
+  const { updateStatus, deleteTask } = customHooks();
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
   const [status, setStatus] = useState("Backlog");
@@ -59,19 +59,7 @@ const TaskCard = ({ task }) => {
   const handleDelete = () => {
     // Make an API call to delete the task (Assuming you have an endpoint for it)
     // Here is a mock implementation, replace it with actual delete logic
-    fetch(`${BACKEND_URL}/tasks/${task._id}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Handle successful deletion (e.g., update UI or state)
-          console.log("Task deleted successfully.");
-        } else {
-          // Handle error case
-          console.error("Failed to delete task.");
-        }
-      })
-      .catch((error) => console.error("Error:", error));
+    deleteTask(task._id);
 
     setShowModal(false); // Close the modal after deletion
   };
