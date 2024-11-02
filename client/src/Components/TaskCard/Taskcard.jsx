@@ -8,7 +8,7 @@ import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, fetchData }) => {
   const { updateStatus, deleteTask, editTask } = customHooks();
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
@@ -89,7 +89,7 @@ const TaskCard = ({ task }) => {
   const handleDelete = async () => {
     await deleteTask(task._id);
     setShowModal(false);
-    window.location.reload();
+    fetchData();
   };
 
   const handleSaveEdit = async () => {
@@ -105,6 +105,7 @@ const TaskCard = ({ task }) => {
         status,
       });
       setShowEditModal(false);
+      fetchData();
     } catch (error) {
       console.error("Error updating task:", error);
     }
@@ -303,7 +304,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("to-do");
                 await updateStatus(task._id, "to-do");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -313,7 +314,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("in-progress");
                 await updateStatus(task._id, "in-progress");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -323,7 +324,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("done");
                 await updateStatus(task._id, "done");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -338,7 +339,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("backlog");
                 await updateStatus(task._id, "backlog");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -348,7 +349,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("in-progress");
                 await updateStatus(task._id, "in-progress");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -358,7 +359,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("done");
                 await updateStatus(task._id, "done");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -373,7 +374,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("backlog");
                 await updateStatus(task._id, "backlog");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -383,7 +384,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("to-do");
                 await updateStatus(task._id, "to-do");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -393,7 +394,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("done");
                 await updateStatus(task._id, "done");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -408,7 +409,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("backlog");
                 await updateStatus(task._id, "backlog");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -418,7 +419,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("to-do");
                 await updateStatus(task._id, "to-do");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >
@@ -428,7 +429,7 @@ const TaskCard = ({ task }) => {
               onClick={async () => {
                 setStatus("in-progress");
                 await updateStatus(task._id, "in-progress");
-                window.location.reload();
+                fetchData();
               }}
               className={s.statusButton}
             >

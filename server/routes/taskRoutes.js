@@ -10,7 +10,7 @@ const {
   getTasksByPriority,
   dueDateTasks,
   getTaskById,
-  editTask
+  editTask,
 } = require("../controllers/taskController");
 const { protect } = require("../config/authMiddleware");
 const router = express.Router();
@@ -22,7 +22,7 @@ router.delete("/:id", protect, deleteTask);
 
 router.get("/filter", protect, getFilteredTask); // wrto duedate
 // Filter tasks by status
-router.get("/filterByStatus", filterByStatus);
+router.get("/filterByStatus", protect, filterByStatus);
 
 // PUT route to update the task status
 router.put("/:id/status", protect, updateStatus);
@@ -36,6 +36,6 @@ router.get("/dueDateTasks", protect, dueDateTasks);
 router.get("/:id", getTaskById);
 
 // PUT /tasks/:id - Update a task by ID
-router.put('/:id', editTask)
+router.put("/:id", protect, editTask);
 
 module.exports = router;

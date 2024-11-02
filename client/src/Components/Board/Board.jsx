@@ -24,8 +24,22 @@ const Board = () => {
     const date = new Date();
     const suffixes = ["th", "st", "nd", "rd"];
     const day = date.getDate();
-    const suffix = suffixes[(day % 10 > 3 || Math.floor(day / 10) === 1) ? 0 : day % 10];
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const suffix =
+      suffixes[day % 10 > 3 || Math.floor(day / 10) === 1 ? 0 : day % 10];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
     return `${day}${suffix} ${month}, ${year}`;
@@ -51,35 +65,37 @@ const Board = () => {
     }
   };
 
+  const fetchTasks = async () => {
+    try {
+      const list = await getUsersTasks();
+      const backList = await filterTaskByStatus("backlog", selectedFilter);
+      const todoList = await filterTaskByStatus("to-do", selectedFilter);
+      const progressList = await filterTaskByStatus(
+        "in-progress",
+        selectedFilter
+      );
+      const doneList = await filterTaskByStatus("done", selectedFilter);
+
+      // if (isMounted) {
+      setTaskList(list);
+      setBacklogTaskList(backList);
+      setTodoTaskList(todoList);
+      setProgressTaskList(progressList);
+      setDoneTaskList(doneList);
+      // }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
   useEffect(() => {
-    let isMounted = true;
-
-    const fetchTasks = async () => {
-      try {
-        const list = await getUsersTasks();
-        const backList = await filterTaskByStatus("backlog", selectedFilter);
-        const todoList = await filterTaskByStatus("to-do", selectedFilter);
-        const progressList = await filterTaskByStatus("in-progress", selectedFilter);
-        const doneList = await filterTaskByStatus("done", selectedFilter);
-
-        if (isMounted) {
-          setTaskList(list);
-          setBacklogTaskList(backList);
-          setTodoTaskList(todoList);
-          setProgressTaskList(progressList);
-          setDoneTaskList(doneList);
-        }
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-
-    };
+    // let isMounted = true;
     fetchTasks();
 
-    return () => {
-      isMounted = false;
-    };
-  }, [selectedFilter]);
+    // return () => {
+    //   isMounted = false;
+    // };
+  }, []);
 
   return (
     <div className={s.container}>
@@ -118,35 +134,60 @@ const Board = () => {
       <div className={s.boxContainer}>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
-            <p><strong>Backlog</strong></p>
-            <div><img src={collapse} alt="collapse" /></div>
+            <p>
+              <strong>Backlog</strong>
+            </p>
+            <div>
+              <img src={collapse} alt="collapse" />
+            </div>
           </div>
           {backlogTaskList?.map((task) => (
-            <TaskCard key={task._id} task={task} />
+            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
           <div className={s.todoBox}>
-            <p><strong>To do</strong></p>
+            <p>
+              <strong>To do</strong>
+            </p>
             <div>
-              <img src={plus} alt="add" onClick={openModal} style={{ cursor: "pointer" }} />
+              <img
+                src={plus}
+                alt="add"
+                onClick={openModal}
+                style={{ cursor: "pointer" }}
+              />
               <img src={collapse} alt="collapse" />
             </div>
           </div>
           {todoTaskList?.map((task) => (
-            <TaskCard key={task._id} task={task} />
+            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
-          <div className={s.todoBox}><p><strong>In progress</strong></p><div><img src={collapse} alt="collapse" /></div></div>
+          <div className={s.todoBox}>
+            <p>
+              <strong>In progress</strong>
+            </p>
+            <div>
+              <img src={collapse} alt="collapse" />
+            </div>
+          </div>
           {progressTaskList?.map((task) => (
-            <TaskCard key={task._id} task={task} />
+            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
-          <div className={s.todoBox}><p><strong>Done</strong></p><div><img src={collapse} alt="collapse" /></div></div>
+          <div className={s.todoBox}>
+            <p>
+              <strong>Done</strong>
+            </p>
+            <div>
+              <img src={collapse} alt="collapse" />
+            </div>
+          </div>
           {doneTaskList?.map((task) => (
-            <TaskCard key={task._id} task={task} />
+            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
       </div>
@@ -155,6 +196,7 @@ const Board = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onSave={handleSaveTask}
+        fetchData={fetchTasks}
       />
     </div>
   );

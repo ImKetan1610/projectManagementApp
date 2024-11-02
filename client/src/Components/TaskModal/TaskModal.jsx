@@ -6,7 +6,7 @@ import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
 
-const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
+const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData, fetchData }) => {
   const { createTask, updateTask } = customHooks();
 
   // Initialize states with taskData if in edit mode
@@ -83,7 +83,7 @@ const TaskModal = ({ isOpen, onClose, onSave, isEditMode, taskData }) => {
       if (response) {
         onSave();
         onClose();
-        window.location.reload();
+        fetchData();
       } else {
         console.error(`Failed to ${isEditMode ? "update" : "create"} task.`);
       }

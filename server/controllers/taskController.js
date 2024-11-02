@@ -29,9 +29,10 @@ const createTask = async (req, res) => {
 };
 
 const getUserTask = async (req, res) => {
-  const id = req.user._id;
-
+  console.log("getUserTask",req.user)
+  
   try {
+    const id = req.user._id;
     const allTasks = await Task.find({ user: id });
 
     if (!allTasks) {
@@ -252,7 +253,7 @@ const editTask = async (req, res) => {
     sharedWith,
     checklist
   );
-  
+
   try {
     // Find the task by ID and update it
     const updatedTask = await Task.findByIdAndUpdate(
