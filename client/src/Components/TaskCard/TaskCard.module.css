@@ -266,7 +266,7 @@
   align-items: center;
 }
 
-.prioritySection >button {
+.prioritySection > button {
   margin-left: 10px;
   font-size: 10px;
   border-radius: 8px;
@@ -274,13 +274,13 @@
   padding: 1% 2%;
 }
 
-.editModalButtons{
+.editModalButtons {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.editModalButtons >input:first-child{
+.editModalButtons > input:first-child {
   width: 20%;
 }
 
@@ -288,13 +288,21 @@
   width: 60%;
   display: flex;
   justify-content: end;
-  gap:2rem
+  gap: 2rem;
 }
 
-.editModalButtons > div  button {
+.editModalButtons > div button {
   padding: 2% 3%;
   border-radius: 8px;
-  border: 0
+  border: 0;
+}
+
+li {
+  display: flex;
+}
+
+li > input:first-child {
+  width: 10%;
 }
 
 .confirmButton,
@@ -338,4 +346,15 @@
   border: 1px solid transparent;
   border-radius: 8px;
   color: white;
+}
+
+
+.initials{
+   font-size: 0.4rem;
+   padding: 0.3rem;
+  
+   border-radius: 50%;
+   font-weight: 700;
+
+   
 }

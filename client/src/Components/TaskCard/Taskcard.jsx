@@ -7,8 +7,21 @@ import mp from "../../assets/ModeratePriorityIcon.svg";
 import lp from "../../assets/LowPriorityIcon.svg";
 import di from "../../assets/DeleteIcon.svg";
 import customHooks from "../CustomHooks/CustomHooks";
+const lightColors = [
+  "#FFB3BA", // Light Pink
+  "#FFDFBA", // Peach
+  "#FFFFBA", // Light Yellow
+  "#BAFFC9", // Light Green
+  "#BAE1FF", // Light Blue
+  "#E3BAFF", // Light Lavender
+  "#FFF3E6", // Light Peach
+  "#F0FFF4", // Mint Green
+  "#E6FFFA"  // Light Cyan
+];
 
-const TaskCard = ({ task, fetchData }) => {
+
+const TaskCard = ({ task, fetchData, initials }) => {
+
   const { updateStatus, deleteTask, editTask } = customHooks();
   const [checklist, setChecklist] = useState(task.checklist);
   const [showChecklist, setShowChecklist] = useState(true);
@@ -21,7 +34,8 @@ const TaskCard = ({ task, fetchData }) => {
   const [dueDate, setDueDate] = useState(null);
   const [priority, setPriority] = useState("");
   const [status, setStatus] = useState(task.status);
-
+  const index = Math.abs(Math.floor(Math.random()*(lightColors.length-1)))
+  
   function formatDateToDDMMYYYY(date) {
     console.log("just", date);
     // const day = String(date.getDate()).padStart(2, '0');
@@ -31,6 +45,7 @@ const TaskCard = ({ task, fetchData }) => {
     // return `${day}-${month}-${year}`;
   }
 
+  
   useEffect(() => {
     const updated = new Date(task.dueDate).toISOString().slice(0, 10);
     console.log("date", updated);
@@ -188,7 +203,7 @@ const TaskCard = ({ task, fetchData }) => {
               </button>
             </div>
 
-
+            <h4 style={{textAlign:"left"}}>Checklist</h4>
             <ul>
               {checklist.map((item, index) => (
                 <li key={index}>
@@ -233,6 +248,9 @@ const TaskCard = ({ task, fetchData }) => {
             &nbsp;
           </div>
           <span className={`${s.priority}`}>{task.priority.toUpperCase()}</span>
+          {initials.length ?
+          <span style={{backgroundColor:lightColors[index]}} className={s.initials}>{initials}</span>:''
+          }
         </div>
         <span
           className={s.options}

@@ -89,9 +89,19 @@ const Board = () => {
     }
   };
 
+  const getInitials = (task) => {
+
+    if(!task.user) return "";
+    return String(task.user.name.slice(0,2)).toLocaleUpperCase();
+  }
+
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  console.log("todo", todoTaskList);
+  console.log("todo", progressTaskList);
+  
 
   return (
     <div className={s.container}>
@@ -139,7 +149,7 @@ const Board = () => {
             </div>
           </div>
           {backlogTaskList?.map((task) => (
-            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
+            <TaskCard initials={getInitials(task)} fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
@@ -158,7 +168,7 @@ const Board = () => {
             </div>
           </div>
           {todoTaskList?.map((task) => (
-            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
+            <TaskCard initials={getInitials(task)} fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
@@ -171,7 +181,7 @@ const Board = () => {
             </div>
           </div>
           {progressTaskList?.map((task) => (
-            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
+            <TaskCard initials={getInitials(task)} fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
         <div className={s.statusContainer}>
@@ -184,7 +194,7 @@ const Board = () => {
             </div>
           </div>
           {doneTaskList?.map((task) => (
-            <TaskCard fetchData={fetchTasks} key={task._id} task={task} />
+            <TaskCard initials={()=>getInitials(task)} fetchData={fetchTasks} key={task._id} task={task} />
           ))}
         </div>
       </div>

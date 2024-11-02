@@ -207,7 +207,7 @@ function customHooks() {
   const addPeople = async (id) => {
     console.log("Assignee ID:", id); // Check what value is being passed
     try {
-      const res = await apiClient.put(`/api/tasks/addpeople`, {
+      const res = await apiClient.put(`/api/tasks/assignalltask`, {
         assigneeId: id,
       });
       if (res.status === 200) {

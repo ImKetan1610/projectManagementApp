@@ -31,7 +31,10 @@ const createTask = async (req, res) => {
 const getUserTask = async (req, res) => {
   try {
     const id = req.user._id;
-    const allTasks = await Task.find({ user: id });
+    const allTasks = await Task.find({ user: id }).populate({
+      path: "user",
+      select: "name",
+    });
 
     if (!allTasks) {
       return res.status(404).json({ tasks: allTasks });
@@ -162,7 +165,7 @@ const filterByStatus = async (req, res) => {
       ],
     };
     // Find tasks based on query
-    const tasks = await Task.find(query);
+    const tasks = await Task.find(query).populate({path:"user",select:"name"});
     return res.status(200).json(tasks);
   } catch (error) {
     console.error("Error filtering tasks:", error);
@@ -290,15 +293,19 @@ const boardPeople = async (req, res) => {
 
     // Update the tasks for the logged-in user by adding the assigneeId
     const result = await Task.updateMany(
-      { user: req.user._id },
-      { $set: { sharedWith: assigneeId } }
+      { user: String(req.user._id) },
+      { $set: { sharedWith: String(assigneeId) } }
     );
 
     // Return success response
-    return res.status(200).json({ message: "People added successfully", result });
+    return res
+      .status(200)
+      .json({ message: "People added successfully", result });
   } catch (error) {
     console.error("Error in boardPeople:", error);
-    return res.status(500).json({ message: "Server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 };
 

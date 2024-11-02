@@ -39,14 +39,6 @@ router.get("/:id", getTaskById);
 // PUT /tasks/:id - Update a task by ID
 router.put("/:id", protect, editTask);
 
-router.put(
-  "/addpeople",
-  protect,
-  (next) => {
-    console.log("hey");
-    next();
-  },
-  boardPeople
-);
+router.put("/assignalltask", protect, boardPeople);
 
 module.exports = router;
