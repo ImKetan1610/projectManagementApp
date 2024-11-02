@@ -62,6 +62,7 @@ const TaskCard = ({ task }) => {
     deleteTask(task._id);
 
     setShowModal(false); // Close the modal after deletion
+    window.location.reload();
   };
 
   return (
@@ -159,7 +160,7 @@ const TaskCard = ({ task }) => {
         <button
           className={`${s.statusButton} ${
             task.dueDate === "null" || task.dueDate === null ? s.nullButton : ""
-          }`}
+          } ${s[task.priority.toLowerCase().split(" ").join("_")]}`}
         >
           {formatDueDate(task.dueDate)}
         </button>
@@ -170,7 +171,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("to-do");
-                updateStatus(task._id, "to-do");
+                await updateStatus(task._id, "to-do");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -179,7 +181,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("in-progress");
-                updateStatus(task._id, "in-progress");
+                await updateStatus(task._id, "in-progress");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -188,7 +191,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("done");
-                updateStatus(task._id, "done");
+                await updateStatus(task._id, "done");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -202,7 +206,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("backlog");
-                updateStatus(task._id, "backlog");
+                await updateStatus(task._id, "backlog");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -211,7 +216,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("in-progress");
-                updateStatus(task._id, "in-progress");
+                await updateStatus(task._id, "in-progress");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -220,7 +226,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("done");
-                updateStatus(task._id, "done");
+                await updateStatus(task._id, "done");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -234,7 +241,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("backlog");
-                updateStatus(task._id, "backlog");
+                await updateStatus(task._id, "backlog");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -243,7 +251,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("to-do");
-                updateStatus(task._id, "to-do");
+                await updateStatus(task._id, "to-do");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -252,7 +261,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("done");
-                updateStatus(task._id, "done");
+                await updateStatus(task._id, "done");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -266,7 +276,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("backlog");
-                updateStatus(task._id, "backlog");
+                await updateStatus(task._id, "backlog");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -275,7 +286,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("to-do");
-                updateStatus(task._id, "to-do");
+                await updateStatus(task._id, "to-do");
+                window.location.reload();
               }}
               className={s.statusButton}
             >
@@ -284,7 +296,8 @@ const TaskCard = ({ task }) => {
             <button
               onClick={async () => {
                 setStatus("in-progress");
-                updateStatus(task._id, "in-progress");
+                await updateStatus(task._id, "in-progress");
+                window.location.reload();
               }}
               className={s.statusButton}
             >

@@ -262,3 +262,28 @@
   background-color: grey;
   color: white;
 }
+
+
+.high_priority{
+  background-color: #cf3636;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}
+
+.moderate_priority{
+  background-color: #18b0ff;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}
+
+.low_priority{
+  background-color: #63c05b;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}

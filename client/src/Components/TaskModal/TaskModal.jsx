@@ -64,12 +64,14 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
       if (response) {
         onSave(); // Optional: pass data to parent component if needed
         onClose();
+        window.location.reload();
       } else {
         console.error("Failed to create task.");
       }
     } catch (error) {
       console.error("Error creating task:", error);
     }
+
   };
 
   const completedCount = checklist.filter((item) => item.completed).length;
