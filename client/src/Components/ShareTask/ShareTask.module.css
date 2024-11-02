@@ -1,0 +1,141 @@
+/* ShareTask.module.css */
+
+.taskCard {
+  /* border: 1px solid #ddd; */
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 600px;
+  margin: 5rem auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+}
+
+.taskHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 1rem;
+  font-size: 8px;
+}
+
+.priority {
+  font-weight: bold;
+  color: #333;
+}
+
+.high {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #ff2473;
+}
+
+.moderate {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #18b0ff;
+}
+
+.low {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #63c05b;
+}
+
+.taskTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.checklistHeader {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.checkbox {
+  width: 10%;
+  margin-right: 8px;
+}
+
+/* Checklist */
+.checklist {
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  padding: 0.5rem 0;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.checklistItem:last-child {
+  margin-bottom: 0;
+}
+/* Scrollbar Styling */
+.checklist::-webkit-scrollbar {
+  width: 8px;
+}
+
+.checklist::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+.checklist::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.dueDateBox {
+  display: flex !important;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* 
+.dueDateBox h4 {
+  display: inline;
+  font-weight: 600;
+  color: #333;
+}
+
+.dueDateBox span {
+  margin-left: 4px;
+  font-style: italic;
+  color: #555;
+}
+*/
+.high_priority > span:last-child {
+  background-color: #cf3636;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}
+
+.moderate_priority > span:last-child {
+  background-color: #18b0ff;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}
+
+.low_priority > span:last-child {
+  background-color: #63c05b;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+}
