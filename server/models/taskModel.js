@@ -9,7 +9,7 @@ const taskSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
     priority: { type: String, required: true },
-    dueDate: { type: Date, default: "null" },
+    dueDate: { type: Date, default: null },
     status: {
       type: String,
       enum: ["backlog", "to-do", "in-progress", "done"],

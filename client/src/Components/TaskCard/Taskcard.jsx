@@ -16,17 +16,28 @@ const TaskCard = ({ task }) => {
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editTitle, setEditTitle] = useState(task.title);
-  const [editPriority, setEditPriority] = useState(task.priority);
+  const [editTitle, setEditTitle] = useState(task?.title);
+  const [editPriority, setEditPriority] = useState(task?.priority);
   const [dueDate, setDueDate] = useState(null);
   const [priority, setPriority] = useState("");
   const [status, setStatus] = useState(task.status);
 
+  function formatDateToDDMMYYYY(date) {
+    console.log("just", date);
+    // const day = String(date.getDate()).padStart(2, '0');
+    // const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    // const year = date.getFullYear();
+
+    // return `${day}-${month}-${year}`;
+  }
+
   useEffect(() => {
+    const updated = new Date(task.dueDate).toISOString().slice(0, 10);
+    console.log("date", updated);
     setChecklist(task.checklist);
     setEditTitle(task.title);
     setEditPriority(task.priority);
-    setDueDate(task.dueDate);
+    setDueDate(updated);
     setStatus(task.status);
   }, [task]);
 
@@ -41,6 +52,8 @@ const TaskCard = ({ task }) => {
   };
 
   const completedCount = checklist.filter((item) => item.checked).length;
+  
+  const handlePriorityChange = (level) => setPriority(level);
 
   const formatDueDate = (dateString) => {
     if (!dateString) return "";
@@ -75,14 +88,18 @@ const TaskCard = ({ task }) => {
   const handleDelete = async () => {
     await deleteTask(task._id);
     setShowModal(false);
+    window.location.reload();
   };
 
   const handleSaveEdit = async () => {
+    console.log(editTitle, priority, dueDate, checklist, status);
+
     try {
+      const updatedDueDate = dueDate == null ? null : dueDate;
       await editTask(task._id, {
         title: editTitle,
         priority,
-        dueDate,
+        dueDate: updatedDueDate,
         checklist,
         status,
       });
@@ -98,6 +115,12 @@ const TaskCard = ({ task }) => {
 
   const handleDeleteChecklistItem = (index) => {
     setChecklist((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleChecklistEdit = (index, newLabel) => {
+    const updatedChecklist = [...checklist];
+    updatedChecklist[index].label = newLabel;
+    setChecklist(updatedChecklist);
   };
 
   return (
@@ -133,14 +156,35 @@ const TaskCard = ({ task }) => {
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
             />
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-            >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
+           <div className={s.prioritySection}>
+          <p>
+            Select Priority:<sup>*</sup>
+          </p>
+          <button
+            className={`${s.priorityButton} ${
+              priority === "High Priority" ? s.active : ""
+            }`}
+            onClick={() => handlePriorityChange("High Priority")}
+          >
+            <img src={hp} alt="high" /> &nbsp; HIGH PRIORITY
+          </button>
+          <button
+            className={`${s.priorityButton} ${
+              priority === "Moderate Priority" ? s.active : ""
+            }`}
+            onClick={() => handlePriorityChange("Moderate Priority")}
+          >
+            <img src={mp} alt="moderate" /> &nbsp; MODERATE PRIORITY
+          </button>
+          <button
+            className={`${s.priorityButton} ${
+              priority === "Low Priority" ? s.active : ""
+            }`}
+            onClick={() => handlePriorityChange("Low Priority")}
+          >
+            <img src={lp} alt="low" /> &nbsp; LOW PRIORITY
+          </button>
+        </div>
             <input
               type="date"
               value={dueDate}
@@ -154,7 +198,12 @@ const TaskCard = ({ task }) => {
                     checked={item.checked}
                     onChange={() => handleChecklistToggle(index)}
                   />
-                  <span>{item.label}</span>
+                  <input
+                    type="text"
+                    placeholder="add new"
+                    value={item.label}
+                    onChange={(e) => handleChecklistEdit(index, e.target.value)}
+                  />
                   <button onClick={() => handleDeleteChecklistItem(index)}>
                     Delete
                   </button>

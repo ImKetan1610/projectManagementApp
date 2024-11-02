@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.get("/", protect, getUserTask);
 router.post("/", protect, createTask);
-router.put("/:id", protect, updateTaskStatus);
+router.put("/status/:id", protect, updateTaskStatus);
 router.delete("/:id", protect, deleteTask);
 
 router.get("/filter", protect, getFilteredTask); // wrto duedate

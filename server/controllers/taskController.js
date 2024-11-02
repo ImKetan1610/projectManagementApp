@@ -243,6 +243,16 @@ const editTask = async (req, res) => {
     req.body;
   const taskId = req.params.id;
 
+  console.log("Ketan",
+    title,
+    priority,
+    dueDate,
+    status,
+    category,
+    sharedWith,
+    checklist
+  );
+  
   try {
     // Find the task by ID and update it
     const updatedTask = await Task.findByIdAndUpdate(
