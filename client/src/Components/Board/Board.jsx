@@ -67,9 +67,9 @@ const Board = () => {
 
   const fetchTasks = async () => {
     try {
+      const todoList = await filterTaskByStatus("to-do", selectedFilter);
       const list = await getUsersTasks();
       const backList = await filterTaskByStatus("backlog", selectedFilter);
-      const todoList = await filterTaskByStatus("to-do", selectedFilter);
       const progressList = await filterTaskByStatus(
         "in-progress",
         selectedFilter
@@ -77,9 +77,9 @@ const Board = () => {
       const doneList = await filterTaskByStatus("done", selectedFilter);
 
       // if (isMounted) {
+      setTodoTaskList(todoList);
       setTaskList(list);
       setBacklogTaskList(backList);
-      setTodoTaskList(todoList);
       setProgressTaskList(progressList);
       setDoneTaskList(doneList);
       // }
